@@ -1,0 +1,77 @@
+# MediaPipe graph that performs pose tracking with TensorFlow Lite on CPU.
+
+# CPU buffer. (ImageFrame)
+input_stream: "input_video0"
+input_stream: "input_video1"
+
+# Output image with rendered results. (ImageFrame)
+#output_stream: "output_video"
+# Pose landmarks. (NormalizedLandmarkList)
+output_stream: "output_landmarks"
+#output_stream: "finished"
+#output_stream: "pose_world_landmarks"
+
+# Generates side packet to enable segmentation.
+# node {
+#   calculator: "ConstantSidePacketCalculator"
+#   output_side_packet: "PACKET:enable_segmentation"
+#   node_options: {
+#     [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+#       packet { bool_value: true }
+#     }
+#   }
+# }
+
+# executor {
+#   name: "model_executor"
+#   type: "ThreadPoolExecutor"
+#   options {
+#     [mediapipe.ThreadPoolExecutorOptions.ext] { num_threads: 1 }
+#   }
+# }
+
+node {
+  calculator: "FlowLimiterCalculator"
+  input_stream: "input_video0"
+  input_stream: "input_video1"
+  input_stream: "FINISHED:finished"
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_input_video0"
+  output_stream: "throttled_input_video1"
+}
+
+# Subgraph that detects poses and corresponding landmarks.
+# new add output_stream: "WORLD_LANDMARKS:pose_world_landmarks" 
+node {
+  calculator: "PoseLandmarkCpu"
+  #input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
+  input_stream: "IMAGE:input_video0"
+  output_stream: "LANDMARKS:pose_landmarks0"
+  output_stream: "WORLD_LANDMARKS:pose_world_landmarks0" 
+  #output_stream: "SEGMENTATION_MASK:segmentation_mask0"
+  output_stream: "DETECTION:pose_detection0"
+  output_stream: "ROI_FROM_LANDMARKS:roi_from_landmarks0"
+}
+
+node {
+  calculator: "PoseLandmarkCpu"
+  #input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
+  input_stream: "IMAGE:input_video1"
+  output_stream: "LANDMARKS:pose_landmarks1"
+  output_stream: "WORLD_LANDMARKS:pose_world_landmarks1" 
+  #output_stream: "SEGMENTATION_MASK:segmentation_mask1"
+  output_stream: "DETECTION:pose_detection1"
+  output_stream: "ROI_FROM_LANDMARKS:roi_from_landmarks1"
+}
+
+node{
+  calculator: "TriangulationCalculator"
+  input_stream: "NORM_FILTERED_LANDMARKS:0:pose_landmarks0"
+  input_stream: "NORM_FILTERED_LANDMARKS:1:pose_landmarks1"
+  output_stream: "FUSED_NORM_FILTERED_LANDMARKS:output_landmarks"
+  #output_stream: "SIGNAL:finished"
+}
+

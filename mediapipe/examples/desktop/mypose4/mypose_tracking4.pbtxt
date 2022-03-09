@@ -1,0 +1,102 @@
+# MediaPipe graph that performs pose tracking with TensorFlow Lite on CPU.
+
+# CPU buffer. (ImageFrame)
+input_stream: "input_video0"
+input_stream: "input_video1"
+
+input_stream: "input_depth0"
+input_stream: "input_depth1"
+
+output_stream: "output_landmarks"
+
+executor {
+  name: "model_executor"
+  type: "ThreadPoolExecutor"
+  options {
+    [mediapipe.ThreadPoolExecutorOptions.ext] { num_threads: 4 }
+  }
+}
+
+node {
+  #executor: "model_executor"
+  calculator: "FlowLimiterCalculator"
+  input_stream: "input_video0"
+  input_stream: "FINISHED:output_landmarks"
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_input_video0"
+}
+
+node {
+  #executor: "model_executor"
+  calculator: "FlowLimiterCalculator"
+  input_stream: "input_video1"
+  input_stream: "FINISHED:output_landmarks"
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_input_video1"
+}
+
+node {
+  calculator: "FlowLimiterCalculator"
+  input_stream: "input_depth0"
+  input_stream: "FINISHED:output_landmarks"
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_input_depth0"
+}
+
+node {
+  calculator: "FlowLimiterCalculator"
+  input_stream: "input_depth1"
+  input_stream: "FINISHED:output_landmarks"
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_input_depth1"
+}
+
+
+# Subgraph that detects poses and corresponding landmarks.
+# new add output_stream: "WORLD_LANDMARKS:pose_world_landmarks" 
+node {
+  calculator: "PoseLandmarkCpu"
+  #input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
+  input_stream: "IMAGE:throttled_input_video0"
+  output_stream: "LANDMARKS:pose_landmarks0"
+  output_stream: "WORLD_LANDMARKS:pose_world_landmarks0" 
+  #output_stream: "SEGMENTATION_MASK:segmentation_mask0"
+  output_stream: "DETECTION:pose_detection0"
+  output_stream: "ROI_FROM_LANDMARKS:roi_from_landmarks0"
+}
+
+node {
+  calculator: "PoseLandmarkCpu"
+  #input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
+  input_stream: "IMAGE:throttled_input_video1"
+  output_stream: "LANDMARKS:pose_landmarks1"
+  output_stream: "WORLD_LANDMARKS:pose_world_landmarks1" 
+  #output_stream: "SEGMENTATION_MASK:segmentation_mask1"
+  output_stream: "DETECTION:pose_detection1"
+  output_stream: "ROI_FROM_LANDMARKS:roi_from_landmarks1"
+}
+
+node{
+  #executor: "model_executor"
+  calculator: "TriangulationCalculator2"
+  input_stream: "NORM_FILTERED_LANDMARKS:0:pose_landmarks0"
+  input_stream: "NORM_FILTERED_LANDMARKS:1:pose_landmarks1"
+
+  input_stream: "DEPTH_MAT:0:throttled_input_depth0"
+  input_stream: "DEPTH_MAT:1:throttled_input_depth1"
+
+  output_stream: "FUSED_NORM_FILTERED_LANDMARKS:output_landmarks"
+}
+
