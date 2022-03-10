@@ -8,8 +8,6 @@
 #include <Eigen/Dense>
 #include <ceres/ceres.h>
 
-
-
 #include "absl/flags/flag.h"
 #include "absl/flags/parse.h"
 #include "mediapipe/framework/calculator_framework.h"
@@ -200,6 +198,8 @@ absl::Status RunMPPGraph(){
 // };
 
 int main(int argc, char **argv){
+
+  std::cout<<"modify"<<std::endl;
 
   // double x1 = 0.2;
   // double x4 = 0.2;
