@@ -9,7 +9,13 @@
 #include <librealsense2/rs.hpp>
 #include <librealsense2/rsutil.h>
 #include <typeinfo>
+#include <fstream>
 #include "projectionError.hpp"
+
+
+// bazel build mediapipe/examples/desktop/ceres_test:ceres_ba
+// ./bazel-bin/mediapipe/examples/desktop/ceres_test/ceres_ba
+
 
 
 cv::Mat angleToRotation(double roll,double pitch,double yaw){
@@ -40,6 +46,10 @@ int main(){
 	std::vector< Eigen::Vector2d > points2d0;
 	std::vector< Eigen::Vector2d > points2d1;
 
+
+	std::vector<double> vis0;
+	std::vector<double> vis1;
+
 	srcFile>>temp;
 	for(int i=0;i<33;i++){
 		double x,y,vis;
@@ -49,6 +59,7 @@ int main(){
 		//Eigen::Vector2d point2d;
 		//point2d<<x<<y;
 		points2d0.push_back(Eigen::Vector2d(x*640,y*480));
+		vis0.push_back(vis);
 	}
 
 	srcFile>>temp;
@@ -60,6 +71,7 @@ int main(){
 		//Eigen::Vector2d point2d;
 		//point2d<<x<<y;
 		points2d1.push_back(Eigen::Vector2d(x*640,y*480));
+		vis1.push_back(vis);
 	}
 
 
@@ -138,9 +150,9 @@ int main(){
 	for(int i=0;i<33;i++){
 		//ceres::LossFunction *loss_function = new ceres::HuberLoss(1.0);
 		ceres::CostFunction *cost_function0;
-		cost_function0 = ReprojectionError::Create(pose0,coeffs0,points2d0[i]);
+		cost_function0 = ReprojectionError::Create(pose0,coeffs0,points2d0[i],vis0[i]);
 		ceres::CostFunction *cost_function1;
-		cost_function1 = ReprojectionError::Create(pose1,coeffs1,points2d1[i]);
+		cost_function1 = ReprojectionError::Create(pose1,coeffs1,points2d1[i],vis1[i]);
 
 		problem.AddResidualBlock(
             cost_function0,  //损失函数
@@ -168,10 +180,15 @@ int main(){
     std::cout << summary.FullReport() << "\n";
 
 
+	
+
+	std::ofstream outfile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/ceres_test/result/1.txt", std::ios::app);
+
 	for(int i=0;i<33;i++){
 		std::cout<<"point"<<i<<":("<<points[i][0]/points[i][3]<<','<<points[i][1]/points[i][3]<<','<<points[i][2]/points[i][3]<<") "<<points[i][3]<<std::endl;
+		outfile<<points[i][0]/points[i][3]<<" "<<points[i][1]/points[i][3]<<" "<<points[i][2]/points[i][3]<<std::endl;
 	}
-
+	outfile.close();
 
 	return 0;
 

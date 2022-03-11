@@ -8,8 +8,8 @@ using namespace Eigen;
 
 class ReprojectionError {
 public:
-    ReprojectionError(const Eigen::Matrix<double, 3, 4>& pose_matrix, const std::vector<double>& coeffs, const Eigen::Vector2d& feature)
-        : pose_matrix_(pose_matrix), coeffs_(coeffs), feature_(feature) {
+    ReprojectionError(const Eigen::Matrix<double, 3, 4>& pose_matrix, const std::vector<double>& coeffs, const Eigen::Vector2d& feature, const double visibility)
+        : pose_matrix_(pose_matrix), coeffs_(coeffs), feature_(feature), visibility_(visibility) {
     }
 
     template <typename T>
@@ -30,16 +30,16 @@ public:
         T rpx = x * coeffs_[5] + coeffs_[7];
         T rpy = y * coeffs_[6] + coeffs_[8];
 
-        reprojection_error[0] = feature_[0] - rpx; 
-        reprojection_error[1] = feature_[1] - rpy;
+        reprojection_error[0] = (feature_[0] - rpx) * T(visibility_); 
+        reprojection_error[1] = (feature_[1] - rpy) * T(visibility_);
 
         return true;
     }
 
-    static ceres::CostFunction * Create(const Eigen::Matrix<double, 3, 4>& pose_matrix_, const std::vector<double> coeffs_, const Eigen::Vector2d& feature_) {
+    static ceres::CostFunction * Create(const Eigen::Matrix<double, 3, 4>& pose_matrix_, const std::vector<double> coeffs_, const Eigen::Vector2d& feature_, const double visibility_) {
         return (
             new ceres::AutoDiffCostFunction<ReprojectionError, 2,4> (
-                new ReprojectionError(pose_matrix_,coeffs_,feature_)
+                new ReprojectionError(pose_matrix_,coeffs_,feature_,visibility_)
             )
         );
     }
@@ -48,6 +48,7 @@ private:
     const Eigen::Matrix<double, 3, 4>& pose_matrix_;
     const Eigen::Vector2d& feature_;
     const std::vector<double> coeffs_;
+    const double visibility_;
     // coefficients. Order for Brown-Conrady: [k1, k2, p1, p2, k3]. + [fx,fy,ppx,ppy]
 };
 

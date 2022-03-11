@@ -9,7 +9,7 @@ cc_binary(
         "//mediapipe/examples/desktop:mypose6",
         "//mediapipe/graphs/pose_tracking:pose_tracking_cpu_deps",
         "//mediapipe/calculators/mycalculator:examples",  #add new defined calculator
-        "//mediapipe/calculators/mycalculator:triangulation3",
+        "//mediapipe/calculators/mycalculator:triangulation4",
         "//mediapipe/calculators/mycalculator:unpacker",
         "//mediapipe/calculators/core:pass_through_calculator",
         "@usr_local//:librealsense2",
