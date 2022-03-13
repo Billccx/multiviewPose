@@ -10,11 +10,11 @@ port = 31201
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   
 s.setblocking(0)      
 host = socket.gethostname()
-s.bind(('127.0.0.1',port))
+s.bind((host,port))
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 ax.set_title('3D Pose')
-cnt=0
+
 
 def plot(kp3d):
     plt.cla()
@@ -29,11 +29,11 @@ def plot(kp3d):
 
 def update_graph(num):
     try:
-        kps=s.recvfrom(2048)[0]
-        #print(kps)
-        kps=kps.decode('utf-8')
+        kps=s.recvfrom(2048)
+        print(kps)
         kps=kps.strip()
-        kps=kps.split()
+        kps=kps[:-1]
+        kps=kps.split(',')
 
 
         kp3d=[]
@@ -41,10 +41,8 @@ def update_graph(num):
             kp3d.append(float(item))
         kp3d=np.array(kp3d)
         kp3d=kp3d.reshape((33,3))
-        #print(kp3d[0])
+        print(kp3d[0])
         plot(kp3d)
-        cnt+=1
-        print(cnt)
     except:
         #print("receive nothing")
         pass
@@ -58,16 +56,8 @@ def main():
     kp3d=np.random.rand(33,3)
     plot(kp3d)
 
-    # while(1):
-    #     try:
-    #         data=s.recvfrom(1024)
-    #         print(data)
-    #     except:
-    #         pass
-
-
     ani = matplotlib.animation.FuncAnimation(fig, update_graph,  
-                               interval=5, blit=False)
+                               interval=10, blit=False)
 
     plt.show()
 
