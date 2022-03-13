@@ -34,7 +34,7 @@ cv::Mat angleToRotation(double roll,double pitch,double yaw){
 
 
 int main(){
-	std::ifstream srcFile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/ceres_test/data/data.txt",std::ios::in);
+	std::ifstream srcFile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/ceres_test/1.txt",std::ios::in);
 	if(!srcFile) { //打开失败
         std::cout << "error opening source file." << std::endl;
         return 0;
@@ -80,10 +80,14 @@ int main(){
 	pose0<< 1,0,0,0,
 			0,1,0,0,
 			0,0,1,0;
-	pose1<< -0.49999997,-0.86602545,0,0,
-			0.86602545,-0.49999997,0,0.5,
-			-0,0,1,0;
 
+	// pose1<< -0.49999997,-0.86602545,0,0,
+	// 		0.86602545,-0.49999997,0,0.5,
+	// 		-0,0,1,0;
+
+	pose1<< 0.9833457451497735, 0.05993558699549709, 0.1715775944211307, 0.471076025771328,
+                    -0.06881535405684883, 0.9965554972175565, 0.04627729477291302, 0.0475855487611404,
+                    -0.1682129380929639, -0.05731375382029878, 0.9840830966342016, 0.1606953437178325;
 
 	// std::cout<<pose0<<std::endl;
 	// std::cout<<pose1<<std::endl;
@@ -114,7 +118,7 @@ int main(){
 									244.954  //ppy	
 								};
 
-	std::cout<<angleToRotation(0,0,2*3.1415926*120.0/360)<<std::endl;
+	//std::cout<<angleToRotation(0,0,2*3.1415926*120.0/360)<<std::endl;
 
 	//rs2_project_point_to_pixel();
 	//Eigen::Vector3d Triangulate(std::vector< std::pair<Eigen::Matrix<double, 3, 4>,Eigen::Vector2d> > datas) {
@@ -180,7 +184,6 @@ int main(){
     std::cout << summary.FullReport() << "\n";
 
 
-	
 
 	std::ofstream outfile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/ceres_test/result/1.txt", std::ios::app);
 

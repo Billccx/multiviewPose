@@ -92,7 +92,7 @@ cc_library(
 
 cc_library(
     name = "triangulation4",
-    srcs = ["triangulation4.cc","rePorjectionError.hpp"],
+    srcs = ["triangulation4.cc","reProjectionError.hpp"],
     visibility = ["//visibility:public"],
     deps = [
         "//mediapipe/framework:calculator_framework",

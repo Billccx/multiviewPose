@@ -34,8 +34,6 @@ namespace mediapipe{
     class TriangulationCalculator4 : public CalculatorBase {
         public:
         int gcnt;
-        std::vector< Eigen::Vector2d > points2d0,points2d1;
-	    std::vector<double> vis0,vis1;
         Eigen::Matrix<double,3,4> pose0,pose1;
         const std::vector<double> coeffs0={0.171335,-0.528704,-0.00208366,2.20354e-05,0.495262,600.764,600.986,331.948,248.697};
         const std::vector<double> coeffs1={0.157447,-0.49804 ,-0.00211366,-0.00051181,0.47009 ,601.325,601.453,333.593,244.954};
@@ -116,6 +114,9 @@ namespace mediapipe{
                 start=now;
             }
 
+            std::vector< Eigen::Vector2d > points2d0,points2d1;
+	        std::vector<double> vis0,vis1;
+
             std::cout<<"in triangulation, cnt="<<gcnt++<<std::endl;
             auto& landmarks0 = cc->Inputs().Get(kNormalizedFilteredLandmarksTag,0).Get<NormalizedLandmarkList>();
             auto& landmarks1 = cc->Inputs().Get(kNormalizedFilteredLandmarksTag,1).Get<NormalizedLandmarkList>();
@@ -157,6 +158,9 @@ namespace mediapipe{
             }
 
 
+            std::cout<<"before optimize, points3d:"<<points3d[0][0]<<','<<points3d[0][1]<<','<<points3d[0][2]<<std::endl;
+            std::cout<<"before optimize, points2d:"<<std::endl<<points2d0[0]<<std::endl<<points2d1[0]<<std::endl;
+
 
             ceres::Problem problem;
 
@@ -186,7 +190,10 @@ namespace mediapipe{
             options.minimizer_progress_to_stdout = true;
             ceres::Solver::Summary summary;
             ceres::Solve(options, &problem, &summary);
-            std::cout << summary.BriefReport() << std::endl;
+            //std::cout << summary.BriefReport() << std::endl;
+
+
+            std::cout<<"points3d: "<<points3d[0][0]<<','<<points3d[0][1]<<','<<points3d[0][2]<<std::endl;
 
 
             auto fused_landmarks = absl::make_unique<NormalizedLandmarkList>();
@@ -199,7 +206,7 @@ namespace mediapipe{
             }
 
 
-            std::ofstream outfile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose5/data/fold1/"+
+            std::ofstream outfile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose6/data/"+
             cc->InputTimestamp().DebugString()+".txt", std::ios::app);
 
             outfile<<"camera0:"<<std::endl;
@@ -218,7 +225,8 @@ namespace mediapipe{
             for(int i=0;i<33;i++){
                 outfile<<fused_landmarks->landmark(i).x()<<' '
                        <<fused_landmarks->landmark(i).y()<<' '
-                       <<fused_landmarks->landmark(i).z()<<std::endl;
+                       <<fused_landmarks->landmark(i).z()<<' '
+                       <<fused_landmarks->landmark(i).visibility()<<std::endl;
             }
 
             outfile.close();
