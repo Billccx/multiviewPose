@@ -18,6 +18,7 @@
 #include <cstdio>
 #include <cstring>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include "reProjectionError.hpp"
 
 
@@ -95,7 +96,8 @@ namespace mediapipe{
             memset(&servaddr, 0, sizeof(servaddr));
             servaddr.sin_family = AF_INET;
             servaddr.sin_port = htons(port);
-            servaddr.sin_addr.s_addr = INADDR_ANY;
+            //servaddr.sin_addr.s_addr = INADDR_ANY;inet_addr("127.101.100.111");
+            servaddr.sin_addr.s_addr = inet_addr("192.168.137.1");//"192.168.137.1";
 
             pose0<< 1,0,0,0,
                     0,1,0,0,
