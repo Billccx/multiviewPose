@@ -145,6 +145,13 @@ namespace mediapipe{
             std::vector< Eigen::Vector2d > points2d0,points2d1;
 	        std::vector<double> vis0,vis1;
 
+            if (cc->Inputs().Get(kNormalizedFilteredLandmarksTag,0).IsEmpty() || cc->Inputs().Get(kNormalizedFilteredLandmarksTag,1).IsEmpty()) {
+                auto fused_landmarks = absl::make_unique<NormalizedLandmarkList>();
+                cc->Outputs().Tag(kfusedNormalizedFilteredLandmarksTag).Add(fused_landmarks.release(), cc->InputTimestamp());
+                return absl::OkStatus();
+            }
+
+
             std::cout<<"in triangulation, cnt="<<gcnt++<<std::endl;
             auto& landmarks0 = cc->Inputs().Get(kNormalizedFilteredLandmarksTag,0).Get<NormalizedLandmarkList>();
             auto& landmarks1 = cc->Inputs().Get(kNormalizedFilteredLandmarksTag,1).Get<NormalizedLandmarkList>();

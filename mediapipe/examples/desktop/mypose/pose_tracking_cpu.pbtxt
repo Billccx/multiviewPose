@@ -11,15 +11,15 @@ output_stream: "pose_landmarks"
 output_stream: "pose_world_landmarks"
 
 # Generates side packet to enable segmentation.
-node {
-  calculator: "ConstantSidePacketCalculator"
-  output_side_packet: "PACKET:enable_segmentation"
-  node_options: {
-    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
-      packet { bool_value: true }
-    }
-  }
-}
+# node {
+#   calculator: "ConstantSidePacketCalculator"
+#   output_side_packet: "PACKET:enable_segmentation"
+#   node_options: {
+#     [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+#       packet { bool_value: false }
+#     }
+#   }
+# }
 
 # Throttles the images flowing downstream for flow control. It passes through
 # the very first incoming image unaltered, and waits for downstream nodes
@@ -46,7 +46,7 @@ node {
 # new add output_stream: "WORLD_LANDMARKS:pose_world_landmarks" 
 node {
   calculator: "PoseLandmarkCpu"
-  input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
+  #input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
   input_stream: "IMAGE:throttled_input_video"
   output_stream: "LANDMARKS:pose_landmarks"
   output_stream: "WORLD_LANDMARKS:pose_world_landmarks" 

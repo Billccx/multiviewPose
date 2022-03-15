@@ -81,14 +81,16 @@ namespace mediapipe{
             rs2::video_stream_profile cvsprofile0(profile);
 
             cv::Mat color_mat=frame_to_mat(color);
+            
             /*
             cv::imwrite(
-                "/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose6/data/"
+                "/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose7/pic/"
                 +cc->InputTimestamp().DebugString()+"_"+std::to_string(cvsprofile0.get_intrinsics().coeffs[3])
                 +".jpg",
                 color_mat
             );
             */
+            
 
             auto output_rgb = absl::make_unique<mediapipe::ImageFrame>(
                 mediapipe::ImageFormat::SRGB, 

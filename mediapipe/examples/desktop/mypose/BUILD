@@ -22,7 +22,6 @@ cc_binary(
     deps = [
         "//mediapipe/examples/desktop:mypose",
         "//mediapipe/graphs/pose_tracking:pose_tracking_cpu_deps",
-        "//mediapipe/calculators/CALCULATOR_FOLDER_NAME:example",  #add new defined calculator
         "@usr_local//:librealsense2",
     ],
 )

@@ -128,12 +128,6 @@ absl::Status RunMPPGraph(){
   ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller,
                    graph.AddOutputStreamPoller(kOutputStream));
 
-  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller landmarks_poller,
-                   graph.AddOutputStreamPoller("pose_landmarks"));
-
-  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller world_landmarks_poller,
-                   graph.AddOutputStreamPoller("pose_world_landmarks"));
-
   MP_RETURN_IF_ERROR(graph.StartRun({}));
 
   LOG(INFO) << "Start grabbing and processing frames.";
@@ -144,9 +138,6 @@ absl::Status RunMPPGraph(){
   rs2::pipeline p;
   p.start();
 
-
-
-
   while (grab_frames){
     // Capture opencv camera or video frame.
     //new add
@@ -154,26 +145,6 @@ absl::Status RunMPPGraph(){
     rs2::video_frame color = frames.get_color_frame();
     cv::Mat camera_frame =frame_to_mat(color);
     cv::cvtColor(camera_frame, camera_frame, cv::COLOR_BGR2RGB);
-
-
-    // cv::Mat camera_frame_raw;
-    // capture >> camera_frame_raw;
-    // if (camera_frame_raw.empty())
-    // {
-    //   if (!load_video)
-    //   {
-    //     LOG(INFO) << "Ignore empty frames from camera.";
-    //     continue;
-    //   }
-    //   LOG(INFO) << "Empty frame, end of video reached.";
-    //   break;
-    // }
-    // cv::Mat camera_frame;
-    // cv::cvtColor(camera_frame_raw, camera_frame, cv::COLOR_BGR2RGB);
-    // if (!load_video)
-    // {
-    //   cv::flip(camera_frame, camera_frame, /*flipcode=HORIZONTAL*/ 1);
-    // }
 
     // Wrap Mat into an ImageFrame.
     auto input_frame = absl::make_unique<mediapipe::ImageFrame>(
@@ -196,40 +167,10 @@ absl::Status RunMPPGraph(){
     );
 
     // Get the graph result packet, or stop if that fails.
-    mediapipe::Packet packet, landmarks_packet, world_landmarks_packet;
+    mediapipe::Packet packet;
     if (!poller.Next(&packet))
       break;
     auto &output_frame = packet.Get<mediapipe::ImageFrame>();
-
-    if (!landmarks_poller.Next(&landmarks_packet))
-      break;
-
-    if (!world_landmarks_poller.Next(&world_landmarks_packet))
-      break;
-
-    auto& output_landmarks = landmarks_packet.Get<mediapipe::NormalizedLandmarkList>();
-    auto& output_world_landmarks = world_landmarks_packet.Get<mediapipe::LandmarkList>();
-    LOG(INFO) <<"normalized:" << output_landmarks.landmark_size();
-    LOG(INFO) <<"world:" << output_world_landmarks.landmark_size();
-
-    /*
-    for (int i = 0; i < output_landmarks.landmark_size(); ++i){
-      std::cout << "ID:" << i << std::endl;
-      const mediapipe::NormalizedLandmark landmark = output_landmarks.landmark(i);
-      std::cout << "x:" << landmark.x() << " y:" << landmark.y() << " z:" << landmark.z()<< " visibility:" << landmark.visibility() << std::endl;
-
-      const mediapipe::Landmark wlandmark = output_world_landmarks.landmark(i);
-      std::cout << "x_w:" << wlandmark.x() << " y_w:" << wlandmark.y() << " z_w:" << wlandmark.z()<< " visibility_w:" << wlandmark.visibility() << std::endl;
-    }
-
-    std::cout<<"_________________________________________________"<<std::endl;
-    */
-
-
-
-
-
-
 
     // Convert back to opencv for display or saving.
     cv::Mat output_frame_mat = mediapipe::formats::MatView(&output_frame);
@@ -248,7 +189,9 @@ absl::Status RunMPPGraph(){
     }
     else
     {
-      cv::imshow(kWindowName, output_frame_mat);
+      cv::Mat merge;
+      hconcat(output_frame_mat,output_frame_mat,merge);
+      cv::imshow(kWindowName, merge);
       // Press any key to exit.
       const int pressed_key = cv::waitKey(5);
       if (pressed_key >= 0 && pressed_key != 255)

@@ -34,6 +34,39 @@ ABSL_FLAG(std::string, input_video_path, "", "Full path of video to load. "
 ABSL_FLAG(std::string, output_video_path, "", "Full path of where to save result (.mp4 only). "
                                               "If not provided, show result in a window.");
 
+
+static cv::Mat frame_to_mat(const rs2::frame& f){
+    using namespace cv;
+    using namespace rs2;
+
+    auto vf = f.as<video_frame>();
+    const int w = vf.get_width();
+    const int h = vf.get_height();
+
+    if (f.get_profile().format() == RS2_FORMAT_BGR8){
+        return Mat(Size(w, h), CV_8UC3, (void*)f.get_data(), Mat::AUTO_STEP);
+    }
+    else if (f.get_profile().format() == RS2_FORMAT_RGB8){
+        auto r_rgb = Mat(Size(w, h), CV_8UC3, (void*)f.get_data(), Mat::AUTO_STEP);
+        Mat r_bgr;
+        cvtColor(r_rgb, r_bgr, COLOR_RGB2BGR);
+        return r_bgr;
+    }
+    else if (f.get_profile().format() == RS2_FORMAT_Z16){
+        return Mat(Size(w, h), CV_16UC1, (void*)f.get_data(), Mat::AUTO_STEP);
+    }
+    else if (f.get_profile().format() == RS2_FORMAT_Y8){
+        return Mat(Size(w, h), CV_8UC1, (void*)f.get_data(), Mat::AUTO_STEP);
+    }
+    else if (f.get_profile().format() == RS2_FORMAT_DISPARITY32){
+        return Mat(Size(w, h), CV_32FC1, (void*)f.get_data(), Mat::AUTO_STEP);
+    }
+
+    throw std::runtime_error("Frame format is not supported yet!");
+}
+
+
+
 absl::Status RunMPPGraph(){
     std::string calculator_graph_config_contents;
 
@@ -43,7 +76,7 @@ absl::Status RunMPPGraph(){
             absl::GetFlag(FLAGS_calculator_graph_config_file),
             &calculator_graph_config_contents));
 
-    LOG(INFO) << "Get calculator graph config contents: " << calculator_graph_config_contents;
+    //LOG(INFO) << "Get calculator graph config contents: " << calculator_graph_config_contents;
 
     mediapipe::CalculatorGraphConfig config =
         mediapipe::ParseTextProtoOrDie<mediapipe::CalculatorGraphConfig>(
@@ -54,8 +87,9 @@ absl::Status RunMPPGraph(){
     mediapipe::CalculatorGraph graph;
     MP_RETURN_IF_ERROR(graph.Initialize(config));
 
-    ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller,
-                     graph.AddOutputStreamPoller("output_landmarks"));
+    //ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller,graph.AddOutputStreamPoller("output_landmarks"));
+    ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller0,graph.AddOutputStreamPoller("output_video0"));
+    ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller1,graph.AddOutputStreamPoller("output_video1"));
 
     MP_RETURN_IF_ERROR(graph.StartRun({}));
 
@@ -101,28 +135,94 @@ absl::Status RunMPPGraph(){
 
     while (cnt < 10000){
         cnt++;
-        std::cout << "cnt=" << cnt << std::endl;
+        //std::cout << "cnt=" << cnt << std::endl;
         rs2::frameset fs0, fs1;
         fs0 = pipelines[0].wait_for_frames();
         fs1 = pipelines[1].wait_for_frames();
 
+
+        //new add
+        // rs2::video_frame color0=fs0.get_color_frame();
+        // rs2::video_frame color1=fs1.get_color_frame();
+
+        // cv::Mat color0_mat=frame_to_mat(color0);
+        // cv::Mat color1_mat=frame_to_mat(color1);
+
+
+        // auto input_frame0 = absl::make_unique<mediapipe::ImageFrame>(
+        //     mediapipe::ImageFormat::SRGB, 
+        //     color0_mat.cols, 
+        //     color0_mat.rows,
+        //     mediapipe::ImageFrame::kDefaultAlignmentBoundary
+        // );
+        // cv::Mat input_frame_mat0 = mediapipe::formats::MatView(input_frame0.get());
+        // color0_mat.copyTo(input_frame_mat0);
+
+        // auto input_frame1 = absl::make_unique<mediapipe::ImageFrame>(
+        //     mediapipe::ImageFormat::SRGB, 
+        //     color1_mat.cols, 
+        //     color1_mat.rows,
+        //     mediapipe::ImageFrame::kDefaultAlignmentBoundary
+        // );
+        // cv::Mat input_frame_mat1 = mediapipe::formats::MatView(input_frame1.get());
+        // color1_mat.copyTo(input_frame_mat1);
+
+
+
+
         // Send image packet into the graph.
         size_t frame_timestamp_us = (double)cv::getTickCount() / (double)cv::getTickFrequency() * 1e6;
-
         std::cout << "already packet the data at time:" << mediapipe::Timestamp(frame_timestamp_us) << std::endl;
+
+
+
+        // new add
+        // MP_RETURN_IF_ERROR(
+        //     graph.AddPacketToInputStream(
+        //     "input_frame0", 
+        //     mediapipe::Adopt(input_frame0.release()).At(mediapipe::Timestamp(frame_timestamp_us))
+        //     )
+        // );
+
+        // MP_RETURN_IF_ERROR(
+        //     graph.AddPacketToInputStream(
+        //     "input_frame1", 
+        //     mediapipe::Adopt(input_frame1.release()).At(mediapipe::Timestamp(frame_timestamp_us))
+        //     )
+        // );
+
+
 
         mediapipe::Packet frmset0 = mediapipe::MakePacket<rs2::frameset>(fs0).At(mediapipe::Timestamp(frame_timestamp_us));
         mediapipe::Packet frmset1 = mediapipe::MakePacket<rs2::frameset>(fs1).At(mediapipe::Timestamp(frame_timestamp_us));
 
+
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream0, frmset0));
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream1, frmset1));
+        
 
-        mediapipe::Packet packet;
-        if (!poller.Next(&packet))
-            break;
-        auto result_landmarks = packet.Get<mediapipe::NormalizedLandmarkList>();
-        //const mediapipe::NormalizedLandmark landmark = result_landmarks.landmark(0);
-        //std::cout << "x:" << landmark.x() << " y:" << landmark.y() << " z:" << landmark.z() << " visibility:" << landmark.visibility() << std::endl;
+        
+        mediapipe::Packet packet0,packet1;
+        if (!poller0.Next(&packet0)) break;
+        auto &output_frame0 = packet0.Get<mediapipe::ImageFrame>();
+        if (!poller1.Next(&packet1)) break;
+        auto &output_frame1 = packet1.Get<mediapipe::ImageFrame>();
+
+        // Convert back to opencv for display or saving.
+        cv::Mat output_frame_mat0 = mediapipe::formats::MatView(&output_frame0);
+        //cv::cvtColor(output_frame_mat0, output_frame_mat0, cv::COLOR_RGB2BGR);
+
+        cv::Mat output_frame_mat1 = mediapipe::formats::MatView(&output_frame1);
+        //cv::cvtColor(output_frame_mat1, output_frame_mat1, cv::COLOR_RGB2BGR);
+
+
+        cv::Mat merge;
+        hconcat(output_frame_mat0,output_frame_mat1,merge);
+        cv::imshow("pose", merge);
+        const int pressed_key = cv::waitKey(5);
+        if (pressed_key >= 0 && pressed_key != 255) cnt=100000;
+        
+
     }
 
     LOG(INFO) << "Shutting down.";
