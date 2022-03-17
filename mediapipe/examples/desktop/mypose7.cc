@@ -200,13 +200,16 @@ absl::Status RunMPPGraph(){
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream0, frmset0));
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream1, frmset1));
         
-
-        
+        std::cout<<"waiting for output frame"<<std::endl;
         mediapipe::Packet packet0,packet1;
         if (!poller0.Next(&packet0)) break;
         auto &output_frame0 = packet0.Get<mediapipe::ImageFrame>();
+        std::cout<<"already got the first output frame"<<std::endl;
+
         if (!poller1.Next(&packet1)) break;
         auto &output_frame1 = packet1.Get<mediapipe::ImageFrame>();
+        std::cout<<"already got the second output frame"<<std::endl;
+
 
         // Convert back to opencv for display or saving.
         cv::Mat output_frame_mat0 = mediapipe::formats::MatView(&output_frame0);
@@ -221,6 +224,7 @@ absl::Status RunMPPGraph(){
         cv::imshow("pose", merge);
         const int pressed_key = cv::waitKey(5);
         if (pressed_key >= 0 && pressed_key != 255) cnt=100000;
+        
         
 
     }

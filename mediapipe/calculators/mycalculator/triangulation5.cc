@@ -104,9 +104,9 @@ namespace mediapipe{
                     0,0,1,0;
             // world coordinate == cam0
             
-            pose1<< 0.9833457451497735, 0.05993558699549709, 0.1715775944211307, 0.471076025771328,
-                    -0.06881535405684883, 0.9965554972175565, 0.04627729477291302, 0.0475855487611404,
-                    -0.1682129380929639, -0.05731375382029878, 0.9840830966342016, 0.1606953437178325;
+            pose1<< 0.9833457451497735, 0.05993558699549709, 0.1715775944211307, -0.471076025771328,
+                    -0.06881535405684883, 0.9965554972175565, 0.04627729477291302, -0.0475855487611404,
+                    -0.1682129380929639, -0.05731375382029878, 0.9840830966342016, -0.1606953437178325;
             // fetch point3d from cam0 -> cam1
         }
 
@@ -276,11 +276,12 @@ namespace mediapipe{
             (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
             now=std::chrono::steady_clock::now();
+            
+            cc->Outputs().Tag(kfusedNormalizedFilteredLandmarksTag).Add(fused_landmarks.release(), cc->InputTimestamp());
             std::cout << "fps:"<<
             1000000/(double)(std::chrono::duration_cast<std::chrono::microseconds>(now - start).count()) 
             << std::endl;
 
-            cc->Outputs().Tag(kfusedNormalizedFilteredLandmarksTag).Add(fused_landmarks.release(), cc->InputTimestamp());
             return absl::OkStatus();
         }
     };
