@@ -11,12 +11,11 @@
 #include <typeinfo>
 #include <fstream>
 #include "projectionError.hpp"
+#include "projectionError2.hpp"
 
 
 // bazel build mediapipe/examples/desktop/ceres_test:ceres_ba
 // ./bazel-bin/mediapipe/examples/desktop/ceres_test/ceres_ba
-
-
 
 cv::Mat angleToRotation(double roll,double pitch,double yaw){
 	cv::Mat R = cv::Mat::eye(3, 3, CV_32F);
@@ -32,9 +31,10 @@ cv::Mat angleToRotation(double roll,double pitch,double yaw){
 	return R;
 }
 
-
-int main(){
-	std::ifstream srcFile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/ceres_test/1.txt",std::ios::in);
+int main(int argc, char **argv){
+	int mode = atoi(argv[1]);
+	std::cout<<mode<<std::endl;
+	std::ifstream srcFile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/ceres_test/dt/d.txt",std::ios::in);
 	if(!srcFile) { //打开失败
         std::cout << "error opening source file." << std::endl;
         return 0;
@@ -46,52 +46,77 @@ int main(){
 	std::vector< Eigen::Vector2d > points2d0;
 	std::vector< Eigen::Vector2d > points2d1;
 
+	std::vector<cv::Point2f> keypoints_0;
+  	std::vector<cv::Point2f> keypoints_1;
 
 	std::vector<double> vis0;
 	std::vector<double> vis1;
 
 	srcFile>>temp;
-	for(int i=0;i<33;i++){
-		double x,y,vis;
+	for(int i=0;i<13;i++){
+		double x,y,vis,depth;
 		srcFile>>x;
 		srcFile>>y;
 		srcFile>>vis;
+		if(mode!=0) srcFile>>depth;
 		//Eigen::Vector2d point2d;
 		//point2d<<x<<y;
 		points2d0.push_back(Eigen::Vector2d(x*640,y*480));
+		keypoints_0.push_back(cv::Point2f(x*640,y*480));
 		vis0.push_back(vis);
+		std::cout<<x<<','<<y<<std::endl;
 	}
 
 	srcFile>>temp;
-	for(int i=0;i<33;i++){
-		double x,y,vis;
+	for(int i=0;i<13;i++){
+		double x,y,vis,depth;
 		srcFile>>x;
 		srcFile>>y;
 		srcFile>>vis;
+		if(mode!=0) srcFile>>depth;
 		//Eigen::Vector2d point2d;
 		//point2d<<x<<y;
 		points2d1.push_back(Eigen::Vector2d(x*640,y*480));
+		keypoints_1.push_back(cv::Point2f(x*640,y*480));
 		vis1.push_back(vis);
+		std::cout<<x<<','<<y<<std::endl;
 	}
 
-
-
 	Eigen::Matrix<double,3,4> pose0,pose1;
+	Eigen::Matrix<double,3,3> poseR0,poseR1;
+	Eigen::Matrix<double,3,1> poset0,poset1;
+
 	pose0<< 1,0,0,0,
 			0,1,0,0,
 			0,0,1,0;
 
-	// pose1<< -0.49999997,-0.86602545,0,0,
-	// 		0.86602545,-0.49999997,0,0.5,
-	// 		-0,0,1,0;
+	pose1<< 0.9923897618791255, 0.00800700532924443, 0.1228757436728235,-0.6437709079221844,
+			0.01133709378219977, 0.9877038785817202, -0.1559247207443367,-0.08254567402321357,
+			-0.122613338679222, 0.1561311503201186, 0.9800964407024703,0.03528781394617282;
 
-	pose1<< 0.9833457451497735, 0.05993558699549709, 0.1715775944211307, 0.471076025771328,
-                    -0.06881535405684883, 0.9965554972175565, 0.04627729477291302, 0.0475855487611404,
-                    -0.1682129380929639, -0.05731375382029878, 0.9840830966342016, 0.1606953437178325;
+	poseR0<< 1,0,0,
+			0,1,0,
+			0,0,1;
+	poset0<< 0,0,0;
 
-	// std::cout<<pose0<<std::endl;
-	// std::cout<<pose1<<std::endl;
+	poseR1<< 0.9923897618791255, 0.00800700532924443, 0.1228757436728235,
+			0.01133709378219977, 0.9877038785817202, -0.1559247207443367,
+			-0.122613338679222, 0.1561311503201186, 0.9800964407024703;
+	poset1<< -0.6437709079221844,-0.08254567402321357,0.03528781394617282;
 
+
+	cv::Mat T1 = (cv::Mat_<float>(3, 4) <<
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0
+	);
+
+
+	cv::Mat T2 = (cv::Mat_<float>(3, 4) <<
+		0.9923897618791255, 0.00800700532924443, 0.1228757436728235,-0.6437709079221844,
+		0.01133709378219977, 0.9877038785817202, -0.1559247207443367,-0.08254567402321357,
+		-0.122613338679222, 0.1561311503201186, 0.9800964407024703,0.03528781394617282
+	);
 
 	const std::vector<double> coeffs0={
 									0.171335,
@@ -128,10 +153,17 @@ int main(){
 	//std::vector<Eigen::Vector4d> points;
 
 	std::vector<std::vector<double>> points;
-	for(int i=0;i<33;i++){
+	for(int i=0;i<13;i++){
 		//Eigen::Vector4d x(0,0,0,1);
-		std::vector<double> x={2.1,2.1,2.1,1};
-		points.push_back(x);
+		std::vector<double> y={0.2,0.2,0.2};
+		std::vector<double> x={1.1,1.1,1.1,1};
+		if(mode==0){
+			points.push_back(x);
+		}
+		else{
+			points.push_back(y);
+		}
+		
 	}
 
 	// c数组转Eigen::MatrixXd
@@ -151,12 +183,23 @@ int main(){
 
 	ceres::Problem problem;
 
-	for(int i=0;i<33;i++){
+	for(int i=0;i<13;i++){
 		//ceres::LossFunction *loss_function = new ceres::HuberLoss(1.0);
 		ceres::CostFunction *cost_function0;
-		cost_function0 = ReprojectionError::Create(pose0,coeffs0,points2d0[i],vis0[i]);
+		if(mode==0){
+			cost_function0 = ReprojectionError::Create(pose0,coeffs0,points2d0[i],vis0[i]);
+		}
+		else{
+			cost_function0 = ReprojectionError2::Create(poseR0,poset0,coeffs0,points2d0[i],vis0[i]);
+		}
+		
 		ceres::CostFunction *cost_function1;
-		cost_function1 = ReprojectionError::Create(pose1,coeffs1,points2d1[i],vis1[i]);
+		if(mode==0){
+			cost_function1 = ReprojectionError::Create(pose1,coeffs1,points2d1[i],vis1[i]);
+		}
+		else{
+			cost_function1 = ReprojectionError2::Create(poseR1,poset1,coeffs1,points2d1[i],vis1[i]);
+		}
 
 		problem.AddResidualBlock(
             cost_function0,  //损失函数
@@ -171,9 +214,9 @@ int main(){
         );
 	}
 
-	for(int i=0;i<33;i++){
-		std::cout<<"point"<<i<<":("<<points[i][0]<<','<<points[i][1]<<','<<points[i][2]<<") "<<points[i][3]<<std::endl;
-	}
+	// for(int i=0;i<13;i++){
+	// 	std::cout<<"point"<<i<<":("<<points[i][0]<<','<<points[i][1]<<','<<points[i][2]<<") "<<points[i][3]<<std::endl;
+	// }
 
     std::cout << "Solving ceres triangulation ... " << std::endl;
     ceres::Solver::Options options;
@@ -184,13 +227,49 @@ int main(){
     std::cout << summary.FullReport() << "\n";
 
 
+	std::vector<cv::Point3d> points_;
+	cv::Mat pts_4d;
+	cv::triangulatePoints(T1, T2, keypoints_0, keypoints_1, pts_4d);
 
-	std::ofstream outfile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/ceres_test/result/1.txt", std::ios::app);
-
-	for(int i=0;i<33;i++){
-		std::cout<<"point"<<i<<":("<<points[i][0]/points[i][3]<<','<<points[i][1]/points[i][3]<<','<<points[i][2]/points[i][3]<<") "<<points[i][3]<<std::endl;
-		outfile<<points[i][0]/points[i][3]<<" "<<points[i][1]/points[i][3]<<" "<<points[i][2]/points[i][3]<<std::endl;
+	// 转换成非齐次坐标
+	for (int i = 0; i < pts_4d.cols; i++) {
+		cv::Mat x = pts_4d.col(i);
+		std::cout<<x<<std::endl;
+		x /= x.at<float>(3, 0); // 归一化
+		cv::Point3d p(
+			x.at<float>(0, 0),
+			x.at<float>(1, 0),
+			x.at<float>(2, 0)
+		);
+		points_.push_back(p);
 	}
+
+
+
+	std::ofstream outfile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/ceres_test/dt/result.txt", std::ios::app);
+
+	if(mode==0){
+		outfile<<"mode0"<<std::endl;
+		for(int i=0;i<13;i++){
+			std::cout<<"point"<<i<<":("<<points[i][0]/points[i][3]<<','<<points[i][1]/points[i][3]<<','<<points[i][2]/points[i][3]<<") "<<points[i][3]<<std::endl;
+			outfile<<points[i][0]/points[i][3]<<" "<<points[i][1]/points[i][3]<<" "<<points[i][2]/points[i][3]<<std::endl;
+		}
+	}
+	else{
+		outfile<<"mode1"<<std::endl;
+		for(int i=0;i<13;i++){
+			std::cout<<"point"<<i<<":("<<points[i][0]<<','<<points[i][1]<<','<<points[i][2]<<") "<<std::endl;
+			outfile<<points[i][0]<<" "<<points[i][1]<<" "<<points[i][2]<<std::endl;
+		}
+	}
+
+	outfile<<"cv::triangulate"<<std::endl;
+	for(int i=0;i<13;i++){
+		outfile<<points_[i].x<<" "<<points_[i].y<<" "<<points_[i].z<<std::endl;
+	}
+
+
+	outfile<<std::endl;
 	outfile.close();
 
 	return 0;

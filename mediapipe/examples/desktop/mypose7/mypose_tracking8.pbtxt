@@ -79,7 +79,7 @@ node {
 
 node{
   #executor: "model_executor"
-  calculator: "TriangulationCalculator5"
+  calculator: "TriangulationCalculator6"
   input_stream: "NORM_FILTERED_LANDMARKS:0:pose_landmarks0"
   input_stream: "NORM_FILTERED_LANDMARKS:1:pose_landmarks1"
 

@@ -25,11 +25,12 @@ public:
         T yf=y*f;
         T dx=xf+2.0*coeffs_[2]*x*y+coeffs_[3]*(r2+2.0*x*x);
         T dy=yf+2.0*coeffs_[3]*x*y+coeffs_[2]*(r2+2.0*y*y);
-        T rpx = x * coeffs_[5] + coeffs_[7];
-        T rpy = y * coeffs_[6] + coeffs_[8];
+        T rpx = dx * coeffs_[5] + coeffs_[7];
+        T rpy = dy * coeffs_[6] + coeffs_[8];
 
         reprojection_error[0] = (feature_[0] - rpx) * T(visibility_); 
         reprojection_error[1] = (feature_[1] - rpy) * T(visibility_);
+        //std::cout<<"error:"<<reprojection_error[0]<<","<<reprojection_error[1]<<std::endl;
 
         return true;
     }

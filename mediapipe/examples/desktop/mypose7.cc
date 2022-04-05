@@ -200,6 +200,8 @@ absl::Status RunMPPGraph(){
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream0, frmset0));
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream1, frmset1));
         
+
+        
         std::cout<<"waiting for output frame"<<std::endl;
         mediapipe::Packet packet0,packet1;
         if (!poller0.Next(&packet0)) break;
@@ -224,6 +226,7 @@ absl::Status RunMPPGraph(){
         cv::imshow("pose", merge);
         const int pressed_key = cv::waitKey(5);
         if (pressed_key >= 0 && pressed_key != 255) cnt=100000;
+        
         
         
 

@@ -18,12 +18,15 @@ cnt=0
 
 def plot(kp3d):
     plt.cla()
-    ax.plot(*kp3d[[16,14,12,11,13,15]].T)
-    ax.plot(*kp3d[[12,24,23,11,12]].T)
+    # ax.plot(*kp3d[[16,14,12,11,13,15]].T)
+    # ax.plot(*kp3d[[12,24,23,11,12]].T)
+    ax.plot(*kp3d[[11,13,15]].T)
+    ax.plot(*kp3d[[12,14,16]].T)
+    ax.plot(*kp3d[[12,11]].T)
     ax.plot(*kp3d[[10,9]].T)
     ax.plot(*kp3d[[8,6,5,4,0,1,2,3,7]].T)
-    ax.plot(*kp3d[[12,24,26,28]].T)
-    ax.plot(*kp3d[[11,23,25,27]].T)
+    # ax.plot(*kp3d[[12,24,26,28]].T)
+    # ax.plot(*kp3d[[11,23,25,27]].T)
 
 
 

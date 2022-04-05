@@ -6,7 +6,8 @@ cc_binary(
   name = "ceres_ba",
   srcs = [
     "ceres_ba.cpp",
-    "projectionError.hpp"
+    "projectionError.hpp",
+    "projectionError2.hpp"
   ],
   deps = [
     "@usr_local//:librealsense2",

@@ -86,7 +86,7 @@ namespace mediapipe{
             cv::Mat color_mat=frame_to_mat(color);
 
             cv::imwrite(
-                "/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose6/data/"
+                "/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose7/data/"
                 +cc->InputTimestamp().DebugString()+"_"+std::to_string(cvsprofile0.get_intrinsics().coeffs[3])
                 +".jpg",
                 color_mat
