@@ -1,0 +1,9 @@
+syntax = "proto2";
+package mediapipe;
+import "mediapipe/framework/calculator.proto";
+message TriangulationCalculatorOptions {
+    extend mediapipe.CalculatorOptions {
+        optional ExampleCalculatorOptions ext = 142857142;
+    }
+    optional string parameterfile = 1;
+}
