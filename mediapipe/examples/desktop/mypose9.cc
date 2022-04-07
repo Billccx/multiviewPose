@@ -79,6 +79,8 @@ absl::Status RunMPPGraph(){
 
     //LOG(INFO) << "Get calculator graph config contents: " << calculator_graph_config_contents;
 
+    //std::cout<<"calculator_graph_config_contents:"<<calculator_graph_config_contents<<std::endl;
+
     mediapipe::CalculatorGraphConfig config = 
         mediapipe::ParseTextProtoOrDie<mediapipe::CalculatorGraphConfig>(calculator_graph_config_contents);
 
@@ -150,6 +152,7 @@ absl::Status RunMPPGraph(){
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream0, frmset0));
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream1, frmset1));
         
+        std::cout<<"success sen in the data"<<std::endl;
 
         /*
         std::cout<<"waiting for output frame"<<std::endl;
@@ -186,6 +189,7 @@ absl::Status RunMPPGraph(){
 }
 
 int main(int argc, char **argv){
+    std::cout<<"fuckcu"<<std::endl;
     google::InitGoogleLogging(argv[0]);
     absl::ParseCommandLine(argc, argv);
     absl::Status run_status = RunMPPGraph();

@@ -18,7 +18,18 @@
 #include "mediapipe/framework/formats/landmark.pb.h"
 
 namespace myPoseTracking{
-    
+    class PoseTracking{
+    public:
+        PoseTracking();
+        virtual ~PoseTracking();
+
+        int InitGraph(const char* graphpath);
+
+    private:
+        absl::Status Mediapipe_InitGraph(const char* graphpath);
+        mediapipe::CalculatorGraph myGraph;
+
+    };
 }
 
 

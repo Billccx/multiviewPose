@@ -90,7 +90,7 @@ node{
       [type.googleapis.com/mediapipe.TriangulationCalculatorOptions] {
         parameterfile: "mediapipe/models/detection_model.tflite"
       }
-    }
+  }
 }
 
 

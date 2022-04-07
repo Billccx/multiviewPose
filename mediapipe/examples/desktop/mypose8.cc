@@ -78,6 +78,7 @@ absl::Status RunMPPGraph(){
 
     //LOG(INFO) << "Get calculator graph config contents: " << calculator_graph_config_contents;
 
+    std::cout<<"calculator_graph_config_contents:"<<calculator_graph_config_contents<<std::endl;
     mediapipe::CalculatorGraphConfig config =
         mediapipe::ParseTextProtoOrDie<mediapipe::CalculatorGraphConfig>(
             calculator_graph_config_contents);
