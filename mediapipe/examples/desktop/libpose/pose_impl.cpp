@@ -61,18 +61,22 @@ absl::Status PoseImpl::Process(rs2::frameset& fs0,rs2::frameset& fs1) {
     std::cout << "already packet the data at time:" << mediapipe::Timestamp(m_frame_timestamp) << std::endl;
     m_frame_timestamp++;
     
-    MP_RETURN_IF_ERROR(m_graph.AddPacketToInputStream(kInputStream0, frmset0));
-    std::cout<<"success send in the packet0"<<std::endl;
-    MP_RETURN_IF_ERROR(m_graph.AddPacketToInputStream(kInputStream1, frmset1));
-    std::cout<<"success send in the packet1"<<std::endl;
+    // MP_RETURN_IF_ERROR(m_graph.AddPacketToInputStream(kInputStream0, frmset0));
+    // std::cout<<"success send in the packet0"<<std::endl;
+    // MP_RETURN_IF_ERROR(m_graph.AddPacketToInputStream(kInputStream1, frmset1));
+    // std::cout<<"success send in the packet1"<<std::endl;
 
-    // if (!m_graph.AddPacketToInputStream(kInputStream0, frmset0).ok()) {
-    //     LOG(INFO) << "Failed to add frameset0 to input stream. Call m_graph.WaitUntilDone() to see error (or destroy Example object)";
-    // }
+    absl::Status s0=m_graph.AddPacketToInputStream(kInputStream0, frmset0);
+    if (!s0.ok()) LOG(INFO) << s0.message();
+
+    absl::Status s1=m_graph.AddPacketToInputStream(kInputStream1, frmset1);
+    if (!s1.ok()) LOG(INFO) << s1.message();
 
     // if (!m_graph.AddPacketToInputStream(kInputStream1, frmset1).ok()) {
     //     LOG(INFO) << "Failed to add frameset1 to input stream. Call m_graph.WaitUntilDone() to see error (or destroy Example object)";
     // }
+
+    return absl::OkStatus();
 
     /*
     mediapipe::Packet packet;
