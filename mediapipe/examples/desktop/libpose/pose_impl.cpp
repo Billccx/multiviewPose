@@ -6,6 +6,7 @@
 #include "mediapipe/framework/port/parse_text_proto.h"
 #include "mediapipe/framework/port/status.h"
 #include "mediapipe/framework/formats/image_frame.h"
+#include "mediapipe/framework/formats/image_frame_opencv.h"
 
 #include <librealsense2/rs.hpp>
 #include "mediapipe/framework/packet.h"
@@ -43,14 +44,17 @@ absl::Status PoseImpl::Init(const std::string& graphpath) {
     LOG(INFO) << "Initialize the calculator graph.";
     MP_RETURN_IF_ERROR(m_graph.Initialize(config));
 
+    LOG(INFO) << "Register the poller.";
+    ASSIGN_OR_RETURN(m_poller0, m_graph.AddOutputStreamPoller("output_video0"));
+    ASSIGN_OR_RETURN(m_poller1, m_graph.AddOutputStreamPoller("output_video1"));
+    
     LOG(INFO) << "Start running the calculator graph.";
-    //ASSIGN_OR_RETURN(m_poller, m_graph.AddOutputStreamPoller(kOutputStream));
     MP_RETURN_IF_ERROR(m_graph.StartRun({}));
 
     return absl::OkStatus();
 }
 
-absl::Status PoseImpl::Process(rs2::frameset& fs0,rs2::frameset& fs1) {
+cv::Mat PoseImpl::Process(rs2::frameset& fs0,rs2::frameset& fs1) {
 
     rs2::video_frame color0=fs0.get_color_frame();
     std::cout<<"fs0 color width:"<<color0.get_width()<<std::endl;
@@ -72,11 +76,30 @@ absl::Status PoseImpl::Process(rs2::frameset& fs0,rs2::frameset& fs1) {
     absl::Status s1=m_graph.AddPacketToInputStream(kInputStream1, frmset1);
     if (!s1.ok()) LOG(INFO) << s1.message();
 
-    // if (!m_graph.AddPacketToInputStream(kInputStream1, frmset1).ok()) {
-    //     LOG(INFO) << "Failed to add frameset1 to input stream. Call m_graph.WaitUntilDone() to see error (or destroy Example object)";
-    // }
+    /*
+    mediapipe::Packet packet0,packet1;
 
-    return absl::OkStatus();
+    if (!m_poller0->Next(&packet0)){
+        LOG(INFO) << "Poller0 didnt give me a packet, return empty mat";
+        return cv::Mat();
+    }
+    auto &output_frame0 = packet0.Get<mediapipe::ImageFrame>();
+    std::cout<<"already got the first output frame"<<std::endl;
+
+    if (!m_poller1->Next(&packet1)){
+        LOG(INFO) << "Poller1 didnt give me a packet, return empty mat";
+        return cv::Mat();
+    }
+    auto &output_frame1 = packet1.Get<mediapipe::ImageFrame>();
+    std::cout<<"already got the second output frame"<<std::endl;
+
+
+    cv::Mat output_frame_mat0 = mediapipe::formats::MatView(&output_frame0);
+    cv::Mat output_frame_mat1 = mediapipe::formats::MatView(&output_frame1);
+    cv::Mat merge;
+    hconcat(output_frame_mat0,output_frame_mat1,merge);
+    return merge;
+    */
 
     /*
     mediapipe::Packet packet;

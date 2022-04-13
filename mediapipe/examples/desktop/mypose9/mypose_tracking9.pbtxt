@@ -7,8 +7,8 @@ input_stream: "input_frameset1"
 
 output_stream: "output_landmarks"
 #new add
-# output_stream: "output_video0"
-# output_stream: "output_video1"
+output_stream: "output_video0"
+output_stream: "output_video1"
 
 
 
@@ -94,24 +94,23 @@ node{
 }
 
 
-
 # new add
-# node {
-#   calculator: "PoseRendererCpu"
-#   input_stream: "IMAGE:throttled_input_video0"
-#   input_stream: "LANDMARKS:pose_landmarks0"
-#   input_stream: "SEGMENTATION_MASK:segmentation_mask0"
-#   input_stream: "DETECTION:pose_detection0"
-#   input_stream: "ROI:roi_from_landmarks0"
-#   output_stream: "IMAGE:output_video0"
-# }
+node {
+  calculator: "PoseRendererCpu"
+  input_stream: "IMAGE:throttled_input_video0"
+  input_stream: "LANDMARKS:pose_landmarks0"
+  input_stream: "SEGMENTATION_MASK:segmentation_mask0"
+  input_stream: "DETECTION:pose_detection0"
+  input_stream: "ROI:roi_from_landmarks0"
+  output_stream: "IMAGE:output_video0"
+}
 
-# node {
-#   calculator: "PoseRendererCpu"
-#   input_stream: "IMAGE:throttled_input_video1"
-#   input_stream: "LANDMARKS:pose_landmarks1"
-#   input_stream: "SEGMENTATION_MASK:segmentation_mask1"
-#   input_stream: "DETECTION:pose_detection1"
-#   input_stream: "ROI:roi_from_landmarks1"
-#   output_stream: "IMAGE:output_video1"
-# }
+node {
+  calculator: "PoseRendererCpu"
+  input_stream: "IMAGE:throttled_input_video1"
+  input_stream: "LANDMARKS:pose_landmarks1"
+  input_stream: "SEGMENTATION_MASK:segmentation_mask1"
+  input_stream: "DETECTION:pose_detection1"
+  input_stream: "ROI:roi_from_landmarks1"
+  output_stream: "IMAGE:output_video1"
+}

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <librealsense2/rs.hpp>
+#include <opencv2/opencv.hpp>
 #include "absl/status/status.h"
 
 namespace mediapipe {
@@ -22,7 +23,7 @@ public:
     // ImageFormat::SRGB is QImage::Format_RGB888 in Qt
     // Function does not take ownership of input data
     //virtual uint8_t* Process(uint8_t* data, int width, int height) = 0;
-    virtual absl::Status Process(rs2::frameset& fs0,rs2::frameset& fs1) = 0;
+    virtual cv::Mat Process(rs2::frameset& fs0,rs2::frameset& fs1) = 0;
 };
 
 }

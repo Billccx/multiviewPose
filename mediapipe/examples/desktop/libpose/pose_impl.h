@@ -6,6 +6,7 @@
 #include "mediapipe/framework/calculator_framework.h"
 
 #include <librealsense2/rs.hpp>
+#include <opencv2/opencv.hpp>  
 #include "mediapipe/framework/packet.h"
 
 namespace mediapipe {
@@ -17,11 +18,12 @@ public:
 
     absl::Status Init(const std::string& graphpath);
 
-    absl::Status Process(rs2::frameset& fs0,rs2::frameset& fs1) override;
+    cv::Mat Process(rs2::frameset& fs0,rs2::frameset& fs1) override;
 
 private:
     mediapipe::CalculatorGraph m_graph;
-    absl::StatusOr<OutputStreamPoller> m_poller;
+    absl::StatusOr<OutputStreamPoller> m_poller0;
+    absl::StatusOr<OutputStreamPoller> m_poller1;
     size_t m_frame_timestamp = 0;
 };
 

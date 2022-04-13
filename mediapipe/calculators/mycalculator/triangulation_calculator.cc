@@ -101,7 +101,7 @@ namespace mediapipe{
                      0,0,1;
             poset0<< 0,0,0;
 
-            std::ifstream parameter("/home/cuichenxi/下载/第三方库/apriltag-master/test/result/RT.txt",std::ios::in);
+            std::ifstream parameter("/home/cuichenxi/code/Qt/qmakeProj/extrinsics/RT.txt",std::ios::in);
             for(int i=0;i<3;i++){
                 for(int j=0;j<3;j++){
                     double x;
@@ -244,6 +244,77 @@ namespace mediapipe{
                 fused_landmark->set_z(points3d[i][2]);
                 fused_landmark->set_visibility(std::max(vis0[i],vis1[i]));
             }
+
+            /*
+            std::ofstream outfile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose9/data/"+
+            cc->InputTimestamp().DebugString()+".txt", std::ios::app);
+
+            outfile<<"camera0:"<<std::endl;
+            for(int i=0;i<33;i++){
+                int x=landmarks0.landmark(i).x()*640;
+                int y=landmarks0.landmark(i).y()*480;
+                //std::cout<<"("<<x<<","<<y<<")"<<std::endl;
+                float dist_to_center;
+                if(x<=0||x>=640||y<=0||y>=480){
+                    dist_to_center=-111;
+                }
+                else dist_to_center = ptrdepth0.get_distance(x,y);
+                outfile<<landmarks0.landmark(i).x()<<" "
+                <<landmarks0.landmark(i).y()<<" "
+                <<landmarks0.landmark(i).visibility()<<" "
+                <<dist_to_center<<std::endl;
+            }
+            outfile<<"camera1:"<<std::endl;
+            for(int i=0;i<33;i++){
+                int x=landmarks1.landmark(i).x()*640;
+                int y=landmarks1.landmark(i).y()*480;
+                //std::cout<<"("<<x<<","<<y<<")"<<std::endl;
+                float dist_to_center;
+                if(x<=0||x>=640||y<=0||y>=480){
+                    dist_to_center=-111;
+                }
+                else  dist_to_center = ptrdepth1.get_distance(x, y);
+                outfile<<landmarks1.landmark(i).x()<<" "
+                <<landmarks1.landmark(i).y()<<" "
+                <<landmarks1.landmark(i).visibility()<<" "
+                <<dist_to_center<<std::endl;
+            }
+            outfile<<"fused:"<<std::endl;
+            for(int i=0;i<33;i++){
+                double x,y,z;
+                x=fused_landmarks->landmark(i).x();
+                y=fused_landmarks->landmark(i).y();
+                z=fused_landmarks->landmark(i).z();
+                Eigen::Matrix<double, 3, 1> pt(x,y,z);
+
+                Eigen::Matrix<double, 2, 1> norm_camera_coordinate0 = (poseR0 * pt + poset0).hnormalized();
+                double x0=norm_camera_coordinate0[0];
+                double y0=norm_camera_coordinate0[1];
+                double rpx0 = x0 * coeffs0[5] + coeffs0[7];
+                double rpy0 = y0 * coeffs0[6] + coeffs0[8];
+
+                Eigen::Matrix<double, 2, 1> norm_camera_coordinate1 = (poseR1 * pt + poset1).hnormalized();
+                double x1=norm_camera_coordinate1[0];
+                double y1=norm_camera_coordinate1[1];
+                double rpx1 = x1 * coeffs1[5] + coeffs1[7];
+                double rpy1 = y1 * coeffs1[6] + coeffs1[8];
+
+                double rx0=landmarks0.landmark(i).x()*640;
+                double ry0=landmarks0.landmark(i).y()*480;
+                double rx1=landmarks1.landmark(i).x()*640;
+                double ry1=landmarks1.landmark(i).y()*480;
+
+                outfile<<fused_landmarks->landmark(i).x()<<' '
+                       <<fused_landmarks->landmark(i).y()<<' '
+                       <<fused_landmarks->landmark(i).z()<<' '
+                       <<fused_landmarks->landmark(i).visibility()<<std::endl;
+                outfile<<v[i]<<" real0:("<<rx0<<","<<ry0<<"), cal0:("<<rpx0<<","<<rpy0<<")"<<std::endl;
+                outfile<<v[i]<<" real1:("<<rx1<<","<<ry1<<"), cal1:("<<rpx1<<","<<rpy1<<")"<<std::endl;
+                outfile<<std::endl;
+                //outfile<<points3d[i][0]<<','<<points3d[i][1]<<','<<points3d[i][2]<<std::endl;
+            }
+            outfile.close();
+            */
 
             memset(buffer,0,sizeof(buffer));
             int p=0;

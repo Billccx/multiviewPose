@@ -90,8 +90,45 @@ absl::Status RunMPPGraph(){
     MP_RETURN_IF_ERROR(graph.Initialize(config));
 
     //ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller,graph.AddOutputStreamPoller("output_landmarks"));
-    // ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller0,graph.AddOutputStreamPoller("output_video0"));
-    // ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller1,graph.AddOutputStreamPoller("output_video1"));
+    ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller0,graph.AddOutputStreamPoller("output_video0"));
+    ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller1,graph.AddOutputStreamPoller("output_video1"));
+
+    //mediapipe::OutputStreamObserver
+
+    cv::namedWindow("pose0",cv::WINDOW_AUTOSIZE);
+    cv::namedWindow("pose1",cv::WINDOW_AUTOSIZE);
+
+    MP_RETURN_IF_ERROR(
+        graph.ObserveOutputStream(
+            "output_video0",
+            [&graph](const mediapipe::Packet& packet) -> ::mediapipe::Status {
+                std::cout<<"in callback func"<<std::endl;
+                auto &output_frame0 = packet.Get<mediapipe::ImageFrame>();
+                cv::Mat output_frame_mat0 = mediapipe::formats::MatView(&output_frame0);
+                if(!output_frame_mat0.data) std::cout<<"[error] in calllback mat is empty"<<std::endl;
+                cv::imshow("pose0", output_frame_mat0);
+                cv::waitKey(1);
+                std::cout<<"[callback] already show the picture?"<<std::endl;
+                return mediapipe::OkStatus();
+            }
+        )
+    );
+
+    MP_RETURN_IF_ERROR(
+        graph.ObserveOutputStream(
+            "output_video1",
+            [&graph](const mediapipe::Packet& packet) -> ::mediapipe::Status {
+                std::cout<<"in callback func"<<std::endl;
+                auto &output_frame1 = packet.Get<mediapipe::ImageFrame>();
+                cv::Mat output_frame_mat1 = mediapipe::formats::MatView(&output_frame1);
+                if(!output_frame_mat1.data) std::cout<<"[error] in calllback mat is empty"<<std::endl;
+                cv::imshow("pose1", output_frame_mat1);
+                cv::waitKey(1);
+                std::cout<<"[callback] already show the picture?"<<std::endl;
+                return mediapipe::OkStatus();
+            }
+        )
+    );
 
     MP_RETURN_IF_ERROR(graph.StartRun({}));
 
@@ -152,15 +189,20 @@ absl::Status RunMPPGraph(){
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream0, frmset0));
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream1, frmset1));
         
-        std::cout<<"success sen in the data"<<std::endl;
+        std::cout<<"success send in the data"<<std::endl;
+        std::cout<<"waiting for output frame"<<std::endl;
+
+
+        
+
+
 
         /*
-        std::cout<<"waiting for output frame"<<std::endl;
         mediapipe::Packet packet0,packet1;
         if (!poller0.Next(&packet0)) break;
         auto &output_frame0 = packet0.Get<mediapipe::ImageFrame>();
         std::cout<<"already got the first output frame"<<std::endl;
-
+        
         if (!poller1.Next(&packet1)) break;
         auto &output_frame1 = packet1.Get<mediapipe::ImageFrame>();
         std::cout<<"already got the second output frame"<<std::endl;
@@ -181,6 +223,7 @@ absl::Status RunMPPGraph(){
         if (pressed_key >= 0 && pressed_key != 255) cnt=100000;
         */
         
+        
     }
 
     LOG(INFO) << "Shutting down.";
@@ -189,7 +232,6 @@ absl::Status RunMPPGraph(){
 }
 
 int main(int argc, char **argv){
-    std::cout<<"fuckcu"<<std::endl;
     google::InitGoogleLogging(argv[0]);
     absl::ParseCommandLine(argc, argv);
     absl::Status run_status = RunMPPGraph();
