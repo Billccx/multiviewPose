@@ -83,7 +83,22 @@ namespace mediapipe{
 
         std::chrono::_V2::steady_clock::time_point start,now;
 
+        rs2_intrinsics intrin0,intrin1;
+        
         TriangulationCalculator8():gcnt(0),port(31201){
+            intrin0.width=640;
+            intrin0.height=480;
+            intrin0.ppx=331.948;
+            intrin0.ppy=248.697;
+            intrin0.fx=600.764;
+            intrin0.fy=600.986;
+            intrin0.model=RS2_DISTORTION_BROWN_CONRADY;
+            intrin0.coeffs[0]=0.171335;
+            intrin0.coeffs[1]=-0.528704;
+            intrin0.coeffs[2]=-0.00208366;
+            intrin0.coeffs[3]=2.20354e-05;
+            intrin0.coeffs[4]=0.495262;
+
             if ( (udp_socket = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
                 perror("socket creation failed");
                 exit(EXIT_FAILURE);
@@ -99,6 +114,7 @@ namespace mediapipe{
             poseR0<< 1,0,0,
                      0,1,0,
                      0,0,1;
+
             poset0<< 0,0,0;
 
             std::ifstream parameter("/home/cuichenxi/code/Qt/qmakeProj/extrinsics/RT.txt",std::ios::in);
@@ -115,6 +131,8 @@ namespace mediapipe{
                 parameter>>x;
                 poset1(i,0)=x;
             }
+
+            parameter.close();
 
             std::cout<<"already load the camera extrinsic\n";
             std::cout<<"rotation:\n"<<poseR1<<std::endl;
@@ -149,6 +167,7 @@ namespace mediapipe{
         }
 
         absl::Status Process(CalculatorContext* cc) override{
+
             if(gcnt==0){
                 start=std::chrono::steady_clock::now();
             }
@@ -159,14 +178,23 @@ namespace mediapipe{
             std::vector< Eigen::Vector2d > points2d0,points2d1;
 	        std::vector<double> vis0,vis1;
 
-            if (cc->Inputs().Get(kNormalizedFilteredLandmarksTag,0).IsEmpty() || cc->Inputs().Get(kNormalizedFilteredLandmarksTag,1).IsEmpty()) {
+            if (cc->Inputs().Get(kNormalizedFilteredLandmarksTag,0).IsEmpty()) {
                 auto fused_landmarks = absl::make_unique<NormalizedLandmarkList>();
                 cc->Outputs().Tag(kfusedNormalizedFilteredLandmarksTag).Add(fused_landmarks.release(), cc->InputTimestamp());
+                std::cout<<"[triangulation calculator error]: input landmarks0 is empty!"<<std::endl;
+                return absl::OkStatus();
+            }
+
+            if (cc->Inputs().Get(kNormalizedFilteredLandmarksTag,1).IsEmpty()) {
+                auto fused_landmarks = absl::make_unique<NormalizedLandmarkList>();
+                cc->Outputs().Tag(kfusedNormalizedFilteredLandmarksTag).Add(fused_landmarks.release(), cc->InputTimestamp());
+                std::cout<<"[triangulation calculator error]: input landmarks1 is empty!"<<std::endl;
                 return absl::OkStatus();
             }
 
 
             std::cout<<"in triangulation, cnt="<<gcnt++<<std::endl;
+
             auto& landmarks0 = cc->Inputs().Get(kNormalizedFilteredLandmarksTag,0).Get<NormalizedLandmarkList>();
             auto& landmarks1 = cc->Inputs().Get(kNormalizedFilteredLandmarksTag,1).Get<NormalizedLandmarkList>();
 
@@ -227,7 +255,7 @@ namespace mediapipe{
             ceres::Solver::Options options;
             options.linear_solver_type = ceres::LinearSolverType::SPARSE_SCHUR;
             options.minimizer_progress_to_stdout = true;
-            //options.max_num_iterations=300;
+            
             ceres::Solver::Summary summary;
             ceres::Solve(options, &problem, &summary);
             std::cout << summary.BriefReport() << std::endl;
@@ -245,24 +273,38 @@ namespace mediapipe{
                 fused_landmark->set_visibility(std::max(vis0[i],vis1[i]));
             }
 
-            /*
-            std::ofstream outfile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose9/data/"+
+            
+            std::ofstream outfile("/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose10/data/"+
             cc->InputTimestamp().DebugString()+".txt", std::ios::app);
 
             outfile<<"camera0:"<<std::endl;
             for(int i=0;i<33;i++){
                 int x=landmarks0.landmark(i).x()*640;
                 int y=landmarks0.landmark(i).y()*480;
-                //std::cout<<"("<<x<<","<<y<<")"<<std::endl;
+                
                 float dist_to_center;
                 if(x<=0||x>=640||y<=0||y>=480){
                     dist_to_center=-111;
                 }
                 else dist_to_center = ptrdepth0.get_distance(x,y);
-                outfile<<landmarks0.landmark(i).x()<<" "
+
+                float point3d[3]={0,0,0};
+                float point2d[2]={x,y};
+                if(dist_to_center!=-111){
+                    rs2_deproject_pixel_to_point(point3d,&intrin0,point2d,dist_to_center);
+                }
+
+
+                outfile<<v[i]<<" "<<landmarks0.landmark(i).x()<<" "
                 <<landmarks0.landmark(i).y()<<" "
-                <<landmarks0.landmark(i).visibility()<<" "
-                <<dist_to_center<<std::endl;
+                <<landmarks0.landmark(i).visibility()<<" depth: "
+                <<dist_to_center<<
+                " reprojection: ("<<
+                point3d[0]<<','<<
+                point3d[1]<<','<<
+                point3d[2]<<')'<<std::endl;
+
+
             }
             outfile<<"camera1:"<<std::endl;
             for(int i=0;i<33;i++){
@@ -274,9 +316,9 @@ namespace mediapipe{
                     dist_to_center=-111;
                 }
                 else  dist_to_center = ptrdepth1.get_distance(x, y);
-                outfile<<landmarks1.landmark(i).x()<<" "
+                outfile<<v[i]<<" "<<landmarks1.landmark(i).x()<<" "
                 <<landmarks1.landmark(i).y()<<" "
-                <<landmarks1.landmark(i).visibility()<<" "
+                <<landmarks1.landmark(i).visibility()<<" depth: "
                 <<dist_to_center<<std::endl;
             }
             outfile<<"fused:"<<std::endl;
@@ -304,17 +346,18 @@ namespace mediapipe{
                 double rx1=landmarks1.landmark(i).x()*640;
                 double ry1=landmarks1.landmark(i).y()*480;
 
-                outfile<<fused_landmarks->landmark(i).x()<<' '
-                       <<fused_landmarks->landmark(i).y()<<' '
-                       <<fused_landmarks->landmark(i).z()<<' '
-                       <<fused_landmarks->landmark(i).visibility()<<std::endl;
+                outfile<<v[i]<<" "<<fused_landmarks->landmark(i).x()<<' '
+                       <<fused_landmarks->landmark(i).y()<<" depth: "
+                       <<fused_landmarks->landmark(i).z()<<' '<<std::endl;
+                       //<<fused_landmarks->landmark(i).visibility()<<std::endl;
                 outfile<<v[i]<<" real0:("<<rx0<<","<<ry0<<"), cal0:("<<rpx0<<","<<rpy0<<")"<<std::endl;
                 outfile<<v[i]<<" real1:("<<rx1<<","<<ry1<<"), cal1:("<<rpx1<<","<<rpy1<<")"<<std::endl;
                 outfile<<std::endl;
                 //outfile<<points3d[i][0]<<','<<points3d[i][1]<<','<<points3d[i][2]<<std::endl;
             }
             outfile.close();
-            */
+            
+            
 
             memset(buffer,0,sizeof(buffer));
             int p=0;

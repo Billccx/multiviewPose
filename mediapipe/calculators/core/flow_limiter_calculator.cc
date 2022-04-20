@@ -101,6 +101,10 @@ class FlowLimiterCalculator : public CalculatorBase {
     }
     input_queues_.resize(cc->Inputs().NumEntries(""));
     RET_CHECK_OK(CopyInputHeadersToOutputs(cc->Inputs(), &(cc->Outputs())));
+
+    std::cout<<"max in flight"<<options_.max_in_flight()<<std::endl;
+    std::cout<<"max in queue"<<options_.max_in_queue()<<std::endl;
+
     return absl::OkStatus();
   }
 

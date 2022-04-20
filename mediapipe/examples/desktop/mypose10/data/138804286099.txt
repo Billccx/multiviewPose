@@ -1,0 +1,201 @@
+camera0:
+nose 0.395575 0.14772 0.99881 depth: 1.27375 reprojection: (-0.165116,-0.373322,1.27375)
+left eye (inner) 0.411973 0.113441 0.99829 depth: 1.267 reprojection: (-0.143298,-0.404193,1.267)
+left eye 0.421278 0.114553 0.997966 depth: 1.2825 reprojection: (-0.132448,-0.409202,1.2825)
+left eye (outer) 0.43047 0.115808 0.998002 depth: 1.28325 reprojection: (-0.11992,-0.407432,1.28325)
+right eye (inner) 0.383113 0.110387 0.998579 depth: 1.26725 reprojection: (-0.18063,-0.408146,1.26725)
+right eye 0.371875 0.109385 0.998355 depth: 1.2555 reprojection: (-0.193323,-0.404271,1.2555)
+right eye (outer) 0.361243 0.108075 0.998476 depth: 1.2645 reprojection: (-0.209158,-0.409116,1.2645)
+left ear 0.442308 0.129628 0.99773 depth: 1.336 reprojection: (-0.107391,-0.409172,1.336)
+right ear 0.336986 0.116326 0.99882 depth: 0 reprojection: (-0,-0,0)
+mouth (left) 0.408974 0.184381 0.999029 depth: 1.28025 reprojection: (-0.149404,-0.33805,1.28025)
+mouth (right) 0.376419 0.178194 0.999403 depth: 1.28775 reprojection: (-0.194557,-0.34599,1.28775)
+left shoulder 0.472496 0.27729 0.999557 depth: 1.486 reprojection: (-0.0735851,-0.284049,1.486)
+right shoulder 0.257961 0.256753 0.999752 depth: 1.38125 reprojection: (-0.378365,-0.284434,1.38125)
+left elbow 0.570277 0.360312 0.727187 depth: 1.58 reprojection: (0.0839934,-0.200852,1.58)
+right elbow 0.108492 0.335572 0.957379 depth: 1.36625 reprojection: (-0.587567,-0.195313,1.36625)
+left wrist 0.69124 0.301256 0.504311 depth: 1.4545 reprojection: (0.263933,-0.250812,1.4545)
+right wrist 0.0193381 0.221609 0.758484 depth: 1.132 reprojection: (-0.592366,-0.263335,1.132)
+left pinky 0.729841 0.27461 0.447571 depth: 1.387 reprojection: (0.308092,-0.268156,1.387)
+right pinky -0.0218115 0.216291 0.676704 depth: -111 reprojection: (0,0,0)
+left index 0.719905 0.270076 0.467311 depth: 1.386 reprojection: (0.292006,-0.272617,1.386)
+right index -0.011773 0.194303 0.692528 depth: -111 reprojection: (0,0,0)
+left thumb 0.698208 0.283512 0.513022 depth: 1.392 reprojection: (0.261562,-0.258161,1.392)
+right thumb 0.00672855 0.215082 0.711696 depth: 1.11 reprojection: (-0.595521,-0.263687,1.11)
+left hip 0.415757 0.705346 0.995721 depth: 1.61875 reprojection: (-0.176885,0.239551,1.61875)
+right hip 0.298075 0.726141 0.993299 depth: 1.5635 reprojection: (-0.365756,0.25604,1.5635)
+left knee 0.548477 0.935569 0.186521 depth: 0.5245 reprojection: (0.0164396,0.172906,0.5245)
+right knee 0.281299 0.9398 0.14119 depth: 0.75825 reprojection: (-0.188955,0.251746,0.75825)
+left ankle 0.576388 1.14678 0.0481828 depth: -111 reprojection: (0,0,0)
+right ankle 0.311893 1.18812 0.0581876 depth: -111 reprojection: (0,0,0)
+left heel 0.564454 1.16828 0.113446 depth: -111 reprojection: (0,0,0)
+right heel 0.308698 1.21249 0.0866962 depth: -111 reprojection: (0,0,0)
+left foot index 0.620615 1.26431 0.0513666 depth: -111 reprojection: (0,0,0)
+right foot index 0.330315 1.31183 0.0530597 depth: -111 reprojection: (0,0,0)
+camera1:
+nose 0.648206 0.17361 0.996256 depth: 1.27925
+left eye (inner) 0.664379 0.14251 0.992584 depth: 1.29675
+left eye 0.672916 0.143589 0.990738 depth: 0
+left eye (outer) 0.680911 0.144721 0.990645 depth: 0
+right eye (inner) 0.635092 0.140046 0.993834 depth: 1.27875
+right eye 0.625078 0.139863 0.992871 depth: 1.29175
+right eye (outer) 0.616121 0.140074 0.993313 depth: 1.29325
+left ear 0.692557 0.155114 0.988731 depth: 1.48575
+right ear 0.602629 0.150649 0.993706 depth: 1.299
+mouth (left) 0.663818 0.20297 0.993802 depth: 1.2955
+mouth (right) 0.627283 0.201602 0.99533 depth: 1.29925
+left shoulder 0.745367 0.295816 0.997615 depth: 1.44625
+right shoulder 0.529118 0.285472 0.998346 depth: 1.47725
+left elbow 0.881769 0.364245 0.860514 depth: 1.43925
+right elbow 0.400313 0.360641 0.826091 depth: 1.56
+left wrist 1.00147 0.260248 0.535954 depth: -111
+right wrist 0.296421 0.244593 0.540343 depth: 1.32525
+left pinky 1.03712 0.218146 0.447947 depth: -111
+right pinky 0.260257 0.205309 0.501111 depth: 1.30125
+left index 1.04078 0.196535 0.469134 depth: -111
+right index 0.267122 0.185447 0.513877 depth: 1.282
+left thumb 1.02312 0.216122 0.516896 depth: -111
+right thumb 0.284732 0.195855 0.529969 depth: 1.30425
+left hip 0.685639 0.694452 0.988941 depth: 1.619
+right hip 0.57227 0.68853 0.99064 depth: 1.63775
+left knee 0.707327 0.875493 0.239727 depth: 0.769
+right knee 0.535079 0.87574 0.341234 depth: 0.81275
+left ankle 0.698045 1.07206 0.101706 depth: -111
+right ankle 0.515345 1.07687 0.136476 depth: -111
+left heel 0.691094 1.09225 0.172349 depth: -111
+right heel 0.518352 1.09722 0.159172 depth: -111
+left foot index 0.715588 1.16216 0.0891331 depth: -111
+right foot index 0.489749 1.16653 0.100435 depth: -111
+fused:
+nose -0.170189 -0.393384 depth: 1.30576 
+nose real0:(253.168,70.9055), cal0:(253.646,67.6396)
+nose real1:(414.852,83.3326), cal1:(414.583,86.6978)
+
+left eye (inner) -0.147163 -0.4257 depth: 1.30149 
+left eye (inner) real0:(263.663,54.4515), cal0:(264.018,52.1218)
+left eye (inner) real1:(425.203,68.4048), cal1:(425.026,70.8096)
+
+left eye -0.134153 -0.423443 depth: 1.29968 
+left eye real0:(269.618,54.9853), cal0:(269.937,52.8918)
+left eye real1:(430.667,68.9227), cal1:(430.508,71.0814)
+
+left eye (outer) -0.121005 -0.419952 depth: 1.2944 
+left eye (outer) real0:(275.501,55.5878), cal0:(275.787,53.7151)
+left eye (outer) real1:(435.783,69.4659), cal1:(435.642,71.3897)
+
+right eye (inner) -0.1846 -0.424501 depth: 1.28476 
+right eye (inner) real0:(245.192,52.9857), cal0:(245.628,50.124)
+right eye (inner) real1:(406.459,67.2221), cal1:(406.238,70.2105)
+
+right eye -0.200303 -0.426472 depth: 1.28702 
+right eye real0:(238,52.5047), cal0:(238.449,49.5514)
+right eye real1:(400.05,67.134), cal1:(399.82,70.2379)
+
+right eye (outer) -0.215836 -0.429513 depth: 1.29259 
+right eye (outer) real0:(231.195,51.8761), cal0:(231.633,48.9954)
+right eye (outer) real1:(394.317,67.2354), cal1:(394.092,70.2746)
+
+left ear -0.104789 -0.407737 depth: 1.29762 
+left ear real0:(283.077,62.2213), cal0:(283.434,59.8557)
+left ear real1:(443.237,74.4547), cal1:(443.055,76.8772)
+
+right ear -0.262155 -0.443155 depth: 1.35973 
+right ear real0:(215.671,55.8367), cal0:(216.121,52.8274)
+right ear real1:(385.683,72.3116), cal1:(385.438,75.5107)
+
+mouth (left) -0.154472 -0.365957 depth: 1.33431 
+mouth (left) real0:(261.744,88.503), cal0:(262.398,83.8662)
+mouth (left) real1:(424.844,97.4258), cal1:(424.437,102.183)
+
+mouth (right) -0.194678 -0.35937 depth: 1.29253 
+mouth (right) real0:(240.908,85.5332), cal0:(241.462,81.6011)
+mouth (right) real1:(401.461,96.769), cal1:(401.11,100.86)
+
+left shoulder -0.0731726 -0.303427 depth: 1.51748 
+left shoulder real0:(302.398,133.099), cal0:(302.979,128.527)
+left shoulder real1:(477.035,141.992), cal1:(476.585,146.464)
+
+right shoulder -0.380922 -0.294875 depth: 1.37504 
+right shoulder real0:(165.095,123.242), cal0:(165.521,119.817)
+right shoulder real1:(338.635,137.026), cal1:(338.252,140.723)
+
+left elbow 0.104709 -0.265401 depth: 1.82997 
+left elbow real0:(364.978,172.95), cal0:(366.323,161.536)
+left elbow real1:(564.332,174.838), cal1:(563.499,182.323)
+
+right elbow -0.576062 -0.197441 depth: 1.31957 
+right elbow real0:(69.4346,161.075), cal0:(69.6821,158.774)
+right elbow real1:(256.201,173.108), cal1:(255.771,176.628)
+
+left wrist 0.282742 -0.306925 depth: 1.50384 
+left wrist real0:(442.394,144.603), cal0:(444.9,126.039)
+left wrist real1:(640.943,124.919), cal1:(639.619,139.295)
+
+right wrist -0.52718 -0.241453 depth: 0.992539 
+right wrist real0:(12.3764,106.372), cal0:(12.8564,102.497)
+right wrist real1:(189.709,117.405), cal1:(188.751,126.595)
+
+left pinky 0.319129 -0.315511 depth: 1.39017 
+left pinky real0:(467.098,131.813), cal0:(469.86,112.298)
+left pinky real1:(663.759,104.71), cal1:(662.33,121.511)
+
+right pinky -0.532312 -0.238393 depth: 0.927716 
+right pinky real0:(-13.9593,103.82), cal0:(-12.7629,94.2633)
+right pinky real1:(166.564,98.5483), cal1:(164.37,119.925)
+
+left index 0.327118 -0.353731 depth: 1.4861 
+left index real0:(460.739,129.637), cal0:(464.187,105.647)
+left index real1:(666.099,94.3367), cal1:(664.397,114.918)
+
+right index -0.520434 -0.254202 depth: 0.924435 
+right index real0:(-7.53473,93.2655), cal0:(-6.26737,83.4371)
+right index real1:(170.958,89.0144), cal1:(168.804,110.867)
+
+left thumb 0.309849 -0.357029 depth: 1.57447 
+left thumb real0:(446.853,136.086), cal0:(450.176,112.416)
+left thumb real1:(654.795,103.738), cal1:(653.041,124.053)
+
+right thumb -0.517711 -0.248111 depth: 0.953312 
+right thumb real0:(4.30627,103.239), cal0:(5.69403,92.2833)
+right thumb real1:(182.228,94.0105), cal1:(179.806,117.966)
+
+left hip -0.178843 0.209147 depth: 1.65081 
+left hip real0:(266.084,338.566), cal0:(266.863,324.838)
+left hip real1:(438.809,333.337), cal1:(436.41,346.763)
+
+right hip -0.379906 0.22871 depth: 1.62587 
+right hip real0:(190.768,348.548), cal0:(191.571,333.237)
+right hip real1:(366.253,330.494), cal1:(363.383,346.138)
+
+left knee 0.032384 0.267132 depth: 0.972992 
+left knee real0:(351.025,449.073), cal0:(351.943,413.696)
+left knee real1:(452.689,420.237), cal1:(448.499,439.869)
+
+right knee -0.379301 0.425749 depth: 1.50746 
+right knee real0:(180.032,451.104), cal0:(180.786,418.433)
+right knee real1:(342.45,420.355), cal1:(341.222,426.021)
+
+left ankle 0.0542166 0.360294 depth: 0.885763 
+left ankle real0:(368.888,550.454), cal0:(368.72,493.155)
+left ankle real1:(446.749,514.59), cal1:(443.897,526.145)
+
+right ankle -0.270176 0.554738 depth: 1.2209 
+right ankle real0:(199.611,570.298), cal0:(199.003,521.766)
+right ankle real1:(329.821,516.896), cal1:(327.56,525.66)
+
+left heel 0.043183 0.392064 depth: 0.899638 
+left heel real0:(361.251,560.775), cal0:(360.785,510.608)
+left heel real1:(442.3,524.279), cal1:(437.326,543.849)
+
+right heel -0.283071 0.601492 depth: 1.25801 
+right heel real0:(197.567,581.993), cal0:(196.767,536.047)
+right heel real1:(331.745,526.666), cal1:(328.183,540.178)
+
+left foot index 0.0864178 0.389898 depth: 0.812386 
+left foot index real0:(397.193,606.87), cal0:(395.854,537.135)
+left foot index real1:(457.976,557.835), cal1:(452.566,578.192)
+
+right foot index -0.206898 0.552444 depth: 1.01682 
+right foot index real0:(211.402,629.677), cal0:(209.708,575.215)
+right foot index real1:(313.439,559.936), cal1:(309.241,574.941)
+

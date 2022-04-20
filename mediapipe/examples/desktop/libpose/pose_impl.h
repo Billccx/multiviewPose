@@ -13,15 +13,15 @@ namespace mediapipe {
 
 class PoseImpl : public Pose {
 public:
+    mediapipe::CalculatorGraph m_graph;
     PoseImpl(){}
     ~PoseImpl();
 
     absl::Status Init(const std::string& graphpath);
 
-    cv::Mat Process(rs2::frameset& fs0,rs2::frameset& fs1) override;
+    void Process(rs2::frameset& fs0,rs2::frameset& fs1) override;
 
 private:
-    mediapipe::CalculatorGraph m_graph;
     absl::StatusOr<OutputStreamPoller> m_poller0;
     absl::StatusOr<OutputStreamPoller> m_poller1;
     size_t m_frame_timestamp = 0;

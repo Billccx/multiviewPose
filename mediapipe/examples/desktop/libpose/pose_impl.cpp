@@ -9,6 +9,7 @@
 #include "mediapipe/framework/formats/image_frame_opencv.h"
 
 #include <librealsense2/rs.hpp>
+#include <opencv2/opencv.hpp>
 #include "mediapipe/framework/packet.h"
 
 namespace mediapipe {
@@ -44,22 +45,59 @@ absl::Status PoseImpl::Init(const std::string& graphpath) {
     LOG(INFO) << "Initialize the calculator graph.";
     MP_RETURN_IF_ERROR(m_graph.Initialize(config));
 
-    LOG(INFO) << "Register the poller.";
-    ASSIGN_OR_RETURN(m_poller0, m_graph.AddOutputStreamPoller("output_video0"));
-    ASSIGN_OR_RETURN(m_poller1, m_graph.AddOutputStreamPoller("output_video1"));
+    //LOG(INFO) << "Register the poller.";
+    //ASSIGN_OR_RETURN(m_poller0, m_graph.AddOutputStreamPoller("output_video0"));
+    //ASSIGN_OR_RETURN(m_poller1, m_graph.AddOutputStreamPoller("output_video1"));
     
+/*
+    cv::namedWindow("pose0",cv::WINDOW_AUTOSIZE);
+    cv::namedWindow("pose1",cv::WINDOW_AUTOSIZE);
+
+    MP_RETURN_IF_ERROR(
+        m_graph.ObserveOutputStream(
+            "output_video0",
+            [](const mediapipe::Packet& packet) -> ::mediapipe::Status {
+                std::cout<<"in callback func0"<<std::endl;
+                auto &output_frame0 = packet.Get<mediapipe::ImageFrame>();
+                cv::Mat output_frame_mat0 = mediapipe::formats::MatView(&output_frame0);
+                if(!output_frame_mat0.data) std::cout<<"[error] in calllback0 mat is empty"<<std::endl;
+                else std::cout<<"[callback0] already changed imageframe to mat"<<std::endl;
+                cv::imwrite("/home/cuichenxi/code/Qt/qmakeProj/pic/"+packet.Timestamp().DebugString()+"_cam0.jpg",output_frame_mat0);
+                // cv::imshow("pose0", output_frame_mat0);
+                // cv::waitKey(30);
+                return mediapipe::OkStatus();
+            }
+        )
+    );
+
+    MP_RETURN_IF_ERROR(
+        m_graph.ObserveOutputStream(
+            "output_video1",
+            [](const mediapipe::Packet& packet) -> ::mediapipe::Status {
+                std::cout<<"in callback func1"<<std::endl;
+                auto &output_frame1 = packet.Get<mediapipe::ImageFrame>();
+                cv::Mat output_frame_mat1 = mediapipe::formats::MatView(&output_frame1);
+                if(!output_frame_mat1.data) std::cout<<"[error] in calllback1 mat is empty"<<std::endl;
+                else std::cout<<"[callback1] already changed imageframe to mat"<<std::endl;
+                cv::imwrite("/home/cuichenxi/code/Qt/qmakeProj/pic/"+packet.Timestamp().DebugString()+"_cam1.jpg",output_frame_mat1);
+                // cv::imshow("pose1", output_frame_mat1);
+                // cv::waitKey(30);
+                return mediapipe::OkStatus();
+            }
+        )
+    );
+    std::cout<<"already register the callback function. "<<std::endl;
+*/
+
     LOG(INFO) << "Start running the calculator graph.";
     MP_RETURN_IF_ERROR(m_graph.StartRun({}));
 
     return absl::OkStatus();
 }
 
-cv::Mat PoseImpl::Process(rs2::frameset& fs0,rs2::frameset& fs1) {
+void PoseImpl::Process(rs2::frameset& fs0,rs2::frameset& fs1) {
 
     rs2::video_frame color0=fs0.get_color_frame();
-    std::cout<<"fs0 color width:"<<color0.get_width()<<std::endl;
-
-    
     mediapipe::Packet frmset0 = mediapipe::MakePacket<rs2::frameset>(fs0).At(mediapipe::Timestamp(m_frame_timestamp));
     mediapipe::Packet frmset1 = mediapipe::MakePacket<rs2::frameset>(fs1).At(mediapipe::Timestamp(m_frame_timestamp));
     std::cout << "already packet the data at time:" << mediapipe::Timestamp(m_frame_timestamp) << std::endl;
