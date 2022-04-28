@@ -181,45 +181,10 @@ absl::Status RunMPPGraph(){
         mediapipe::Packet frmset0 = mediapipe::MakePacket<rs2::frameset>(fs0).At(mediapipe::Timestamp(frame_timestamp_us));
         mediapipe::Packet frmset1 = mediapipe::MakePacket<rs2::frameset>(fs1).At(mediapipe::Timestamp(frame_timestamp_us));
 
-
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream0, frmset0));
         MP_RETURN_IF_ERROR(graph.AddPacketToInputStream(kInputStream1, frmset1));
         
-        std::cout<<"success send in the data"<<std::endl;
-        std::cout<<"waiting for output frame"<<std::endl;
-
-
-        
-
-
-
-        /*
-        mediapipe::Packet packet0,packet1;
-        if (!poller0.Next(&packet0)) break;
-        auto &output_frame0 = packet0.Get<mediapipe::ImageFrame>();
-        std::cout<<"already got the first output frame"<<std::endl;
-        
-        if (!poller1.Next(&packet1)) break;
-        auto &output_frame1 = packet1.Get<mediapipe::ImageFrame>();
-        std::cout<<"already got the second output frame"<<std::endl;
-
-
-        // Convert back to opencv for display or saving.
-        cv::Mat output_frame_mat0 = mediapipe::formats::MatView(&output_frame0);
-        //cv::cvtColor(output_frame_mat0, output_frame_mat0, cv::COLOR_RGB2BGR);
-
-        cv::Mat output_frame_mat1 = mediapipe::formats::MatView(&output_frame1);
-        //cv::cvtColor(output_frame_mat1, output_frame_mat1, cv::COLOR_RGB2BGR);
-
-
-        cv::Mat merge;
-        hconcat(output_frame_mat0,output_frame_mat1,merge);
-        cv::imshow("pose", merge);
-        const int pressed_key = cv::waitKey(5);
-        if (pressed_key >= 0 && pressed_key != 255) cnt=100000;
-        */
-        
-        
+        std::cout<<"Success send in the data and waiting for output frame"<<std::endl;
     }
 
     LOG(INFO) << "Shutting down.";

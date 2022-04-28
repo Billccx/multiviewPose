@@ -30,14 +30,14 @@ public:
 
         T x=camera_coordinate[0]/camera_coordinate[2];
         T y=camera_coordinate[1]/camera_coordinate[2];
-        // T r2=x*x+y*y;
-        // T f=1.0+coeffs_[0]*r2+coeffs_[1]*r2*r2+coeffs_[4]*r2*r2*r2;
-        // T xf=x*f;
-        // T yf=y*f;
-        // T dx=xf+2.0*coeffs_[2]*x*y+coeffs_[3]*(r2+2.0*x*x);
-        // T dy=yf+2.0*coeffs_[3]*x*y+coeffs_[2]*(r2+2.0*y*y);
-        T rpx = x * coeffs_[5] + coeffs_[7];
-        T rpy = y * coeffs_[6] + coeffs_[8];
+        T r2=x*x+y*y;
+        T f=1.0+coeffs_[0]*r2+coeffs_[1]*r2*r2+coeffs_[4]*r2*r2*r2;
+        T xf=x*f;
+        T yf=y*f;
+        T dx=xf+2.0*coeffs_[2]*x*y+coeffs_[3]*(r2+2.0*x*x);
+        T dy=yf+2.0*coeffs_[3]*x*y+coeffs_[2]*(r2+2.0*y*y);
+        T rpx = dx * coeffs_[5] + coeffs_[7];
+        T rpy = dy * coeffs_[6] + coeffs_[8];
 
         reprojection_error[0] = (feature_[0] - rpx) * visibility_; 
         reprojection_error[1] = (feature_[1] - rpy) * visibility_;

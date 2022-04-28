@@ -82,14 +82,14 @@ namespace mediapipe{
 
             cv::Mat color_mat=frame_to_mat(color);
             
-            /*
+            
             cv::imwrite(
-                "/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose7/pic/"
+                "/home/cuichenxi/mediapipe/mediapipe/examples/desktop/mypose10/data3/"
                 +cc->InputTimestamp().DebugString()+"_"+std::to_string(cvsprofile0.get_intrinsics().coeffs[3])
                 +".jpg",
                 color_mat
             );
-            */
+            
             
 
             auto output_rgb = absl::make_unique<mediapipe::ImageFrame>(

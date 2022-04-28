@@ -1,0 +1,269 @@
+3d:
+nose
+GT 0.0209144 -0.0581239 0.88125 predict 0.0207823 -0.0557214 0.891678  vis 0.999937 error 0.0107022
+left eye (inner)
+GT 0.0303688 -0.0908725 0.881 predict 0.0310795 -0.0923863 0.906068  vis 0.999922 error 0.0251239
+left eye
+GT 0.0382678 -0.0931169 0.908 predict 0.038799 -0.0943312 0.921015  vis 0.999921 error 0.0130822
+left eye (outer)
+GT 0.0444374 -0.0933849 0.91225 predict 0.0457056 -0.0964511 0.936587  vis 0.999921 error 0.0245626
+right eye (inner)
+GT 7.30581e-05 -0.0964194 0.8905 predict -0.000398436 -0.0929837 0.888871  vis 0.999931 error 0.00383129
+right eye
+GT -0.0130256 -0.098274 0.88725 predict -0.013576 -0.0947409 0.888404  vis 0.999929 error 0.00375741
+right eye (outer)
+GT -0.0266916 -0.0995742 0.88225 predict -0.0274078 -0.0963507 0.887446  vis 0.999935 error 0.0061567
+left ear
+GT 0.0288863 -0.0843222 0.88025 predict 0.0327885 -0.0966465 0.992363  vis 0.999936 error 0.112855
+right ear
+GT -0.065233 -0.0922439 0.898 predict -0.0665542 -0.0936774 0.915476  vis 0.999963 error 0.0175845
+mouth (left)
+GT 0.0233471 -0.0268431 0.90975 predict 0.0236554 -0.0242355 0.935463  vis 0.999922 error 0.0258463
+mouth (right)
+GT -0.00879809 -0.0266889 0.89775 predict -0.00936192 -0.0220668 0.904662  vis 0.999949 error 0.00833425
+left shoulder
+GT 0.0914555 0.0902226 1.03975 predict 0.0937328 0.0897166 1.06403  vis 0.999801 error 0.0243909
+right shoulder
+GT -0.171984 0.0774264 0.875 predict -0.174457 0.0803622 0.887271  vis 0.999762 error 0.0128571
+left elbow
+GT 0.242106 0.276792 0.99025 predict 0.24175 0.288923 0.985898  vis 0.949901 error 0
+right elbow
+GT -0.208812 0.210943 0.6725 predict -0.229666 0.24379 0.742117  vis 0.987288 error 0.0797517
+left wrist
+GT 0.301643 0.0966506 0.904 predict 0.303209 0.0927463 0.90802  vis 0.979264 error 0.0058182
+right wrist
+GT -0.198894 0.058279 0.63075 predict -0.217503 0.0724045 0.689067  vis 0.99002 error 0.0628227
+left pinky
+GT 0.323339 0.0396254 0.89825 predict 0.321944 0.0347577 0.893283  vis 0.95453 error 0.00709327
+right pinky
+GT -0.205773 0.00927932 0.624 predict -0.221709 0.0203045 0.670356  vis 0.976997 error 0.0502429
+left index
+GT 0.313543 0.012542 0.92575 predict 0.307325 0.0096136 0.90662  vis 0.955715 error 0.0203275
+right index
+GT -0.211859 -0.0135955 0.653 predict -0.221766 -0.00240404 0.680623  vis 0.976771 error 0.0314073
+left thumb
+GT 0.287725 0.0322642 0.8845 predict 0.295272 0.0372025 0.908726  vis 0.954496 error 0.0258499
+right thumb
+GT -0.192019 0.00530496 0.62625 predict -0.21003 0.0199106 0.682048  vis 0.976345 error 0.0604248
+left hip
+GT 0 0 0 predict 0.0900183 0.480444 0.929006  vis 0.174179 error 0
+right hip
+GT 0 0 0 predict -0.0903004 0.491376 0.835373  vis 0.184255 error 0
+left knee
+GT 0 0 0 predict 0.0867261 0.747785 0.871058  vis 0.0103464 error 0
+right knee
+GT 0 0 0 predict -0.0477282 0.72371 0.772835  vis 0.012011 error 0
+left ankle
+GT 0 0 0 predict 0.054882 0.899178 0.851847  vis 0.000430607 error 0
+right ankle
+GT 0 0 0 predict 0.0219143 0.83052 0.754517  vis 0.000267362 error 0
+left heel
+GT 0 0 0 predict 0.0280038 0.964062 0.906445  vis 0.000326683 error 0
+right heel
+GT 0 0 0 predict 0.0207337 0.846805 0.759891  vis 0.000335284 error 0
+left foot index
+GT 0 0 0 predict 0.0774565 0.869538 0.794292  vis 0.000902806 error 0
+right foot index
+GT 0 0 0 predict 0.0394735 0.86637 0.773986  vis 0.0003619 error 0
+
+3d1:
+nose
+2dPointinIMG1 308.631 165.443 vis 0.999895 ChangeToIMG0 350.882 207.853 ReProjrct 345.95 211.141 2dPointinIMG0 346.222 209.008 withoutDisTort 350.858 207.901
+left eye (inner)
+2dPointinIMG1 320.247 137.932 vis 0.999851 ChangeToIMG0 352.342 183.951 ReProjrct 352.555 187.418 2dPointinIMG0 352.706 186.544 withoutDisTort 352.29 184.105
+left eye
+2dPointinIMG1 331.661 136.159 vis 0.99987 ChangeToIMG0 363.271 183.974 ReProjrct 357.256 187.143 2dPointinIMG0 357.33 186.898 withoutDisTort 363.184 184.149
+left eye (outer)
+2dPointinIMG1 342.888 134.581 vis 0.999866 ChangeToIMG0 370.332 184.111 ReProjrct 361.265 186.807 2dPointinIMG0 361.287 187.003 withoutDisTort 370.218 184.304
+right eye (inner)
+2dPointinIMG1 296.841 141.146 vis 0.999832 ChangeToIMG0 339.926 183.644 ReProjrct 331.679 185.829 2dPointinIMG0 331.998 183.455 withoutDisTort 339.906 183.787
+right eye
+2dPointinIMG1 290.853 141.55 vis 0.999813 ChangeToIMG0 329.212 183.077 ReProjrct 322.768 184.607 2dPointinIMG0 323.106 181.947 withoutDisTort 329.219 183.221
+right eye (outer)
+2dPointinIMG1 284.452 141.923 vis 0.999785 ChangeToIMG0 322.79 182.467 ReProjrct 313.394 183.447 2dPointinIMG0 313.723 180.666 withoutDisTort 322.812 182.617
+left ear
+2dPointinIMG1 363.92 138.939 vis 0.999884 ChangeToIMG0 361.946 190.6 ReProjrct 351.798 190.167 2dPointinIMG0 351.704 190.993 withoutDisTort 361.876 190.734
+right ear
+2dPointinIMG1 283.398 146.887 vis 0.999855 ChangeToIMG0 322.095 187.084 ReProjrct 288.273 187.2 2dPointinIMG0 288.176 186.757 withoutDisTort 322.116 187.207
+mouth (left)
+2dPointinIMG1 333.501 188.926 vis 0.999918 ChangeToIMG0 351.586 232.404 ReProjrct 347.14 233.127 2dPointinIMG0 347.371 230.956 withoutDisTort 351.578 232.414
+mouth (right)
+2dPointinIMG1 302.932 192.67 vis 0.999891 ChangeToIMG0 337.262 233.243 ReProjrct 325.731 234.038 2dPointinIMG0 326.059 230.824 withoutDisTort 337.261 233.246
+left shoulder
+2dPointinIMG1 429.48 259.749 vis 0.999828 ChangeToIMG0 392.339 300.774 ReProjrct 384.871 299.371 2dPointinIMG0 384.904 300.939 withoutDisTort 392.189 300.674
+right shoulder
+2dPointinIMG1 233.085 261.376 vis 0.999757 ChangeToIMG0 221.233 305.896 ReProjrct 213.824 303.13 2dPointinIMG0 213.1 302.164 withoutDisTort 221.889 305.671
+left elbow
+2dPointinIMG1 488.755 429.874 vis 0.992429 ChangeToIMG0 25109.4 -831.639 ReProjrct 479.26 424.82 2dPointinIMG0 480.845 418.815 withoutDisTort 1501.85 198.36
+right elbow
+2dPointinIMG1 133.948 381.566 vis 0.973297 ChangeToIMG0 149.68 465.488 ReProjrct 146.027 446.125 2dPointinIMG0 142.493 439.915 withoutDisTort 152.518 462.283
+left wrist
+2dPointinIMG1 491.715 267.366 vis 0.997715 ChangeToIMG0 552.079 294.287 ReProjrct 532.557 310.082 2dPointinIMG0 535.127 313.668 withoutDisTort 548.935 294.112
+right wrist
+2dPointinIMG1 100.153 270.003 vis 0.988652 ChangeToIMG0 25109.4 -831.639 ReProjrct 142.318 311.846 2dPointinIMG0 140.132 304.788 withoutDisTort 1501.85 198.36
+left pinky
+2dPointinIMG1 497.63 212.672 vis 0.994558 ChangeToIMG0 537.987 256.251 ReProjrct 548.467 272.081 2dPointinIMG0 551.307 275.425 withoutDisTort 535.261 256.575
+right pinky
+2dPointinIMG1 84.9476 236.89 vis 0.978114 ChangeToIMG0 148.419 266.762 ReProjrct 133.255 266.9 2dPointinIMG0 131.272 257.613 withoutDisTort 150.513 266.893
+left index
+2dPointinIMG1 491.945 191.118 vis 0.993855 ChangeToIMG0 526.75 241.009 ReProjrct 535.594 255.07 2dPointinIMG0 538.152 256.804 withoutDisTort 524.321 241.485
+right index
+2dPointinIMG1 91.6703 222.758 vis 0.978014 ChangeToIMG0 153.579 248.73 ReProjrct 136.202 246.574 2dPointinIMG0 134.531 235.891 withoutDisTort 155.543 249.05
+left thumb
+2dPointinIMG1 484.004 220.434 vis 0.993811 ChangeToIMG0 534.041 261.297 ReProjrct 527.154 273.301 2dPointinIMG0 529.87 270.765 withoutDisTort 531.429 261.542
+right thumb
+2dPointinIMG1 96.0464 240.058 vis 0.98171 ChangeToIMG0 -16641 1373.89 ReProjrct 146.949 266.241 2dPointinIMG0 145.571 253.73 withoutDisTort -777.559 323.086
+left hip
+2dPointinIMG1 374.531 550.931 vis 0.795802 ChangeToIMG0 25109.4 -831.639 ReProjrct 390.16 559.502 2dPointinIMG0 395.768 590.371 withoutDisTort 1501.85 198.36
+right hip
+2dPointinIMG1 242.102 539.858 vis 0.801575 ChangeToIMG0 25109.4 -831.639 ReProjrct 267.008 602.204 2dPointinIMG0 265.065 601.118 withoutDisTort 1501.85 198.36
+left knee
+2dPointinIMG1 355.64 767.282 vis 0.0173153 ChangeToIMG0 25109.4 -831.639 ReProjrct 391.763 764.631 2dPointinIMG0 413.737 827.83 withoutDisTort 1501.85 198.36
+right knee
+2dPointinIMG1 217.101 760.773 vis 0.00935655 ChangeToIMG0 25109.4 -831.639 ReProjrct 294.846 811.481 2dPointinIMG0 287.196 845.031 withoutDisTort 1501.85 198.36
+left ankle
+2dPointinIMG1 346.342 967.484 vis 0.000579451 ChangeToIMG0 25109.4 -831.639 ReProjrct 370.653 883.076 2dPointinIMG0 420.317 1057.09 withoutDisTort 1501.85 198.36
+right ankle
+2dPointinIMG1 220.842 964.849 vis 0.000552912 ChangeToIMG0 25109.4 -831.639 ReProjrct 349.397 910.22 2dPointinIMG0 297.674 1071.8 withoutDisTort 1501.85 198.36
+left heel
+2dPointinIMG1 350.896 992.664 vis 0.000963848 ChangeToIMG0 25109.4 -831.639 ReProjrct 350.508 887.884 2dPointinIMG0 417.494 1086.44 withoutDisTort 1501.85 198.36
+right heel
+2dPointinIMG1 221.086 989.071 vis 0.000696059 ChangeToIMG0 25109.4 -831.639 ReProjrct 348.34 918.422 2dPointinIMG0 288.218 1101.79 withoutDisTort 1501.85 198.36
+left foot index
+2dPointinIMG1 324.199 1034.21 vis 0.000820377 ChangeToIMG0 25109.4 -831.639 ReProjrct 390.532 906.617 2dPointinIMG0 434.028 1121.17 withoutDisTort 1501.85 198.36
+right foot index
+2dPointinIMG1 235.348 1037.79 vis 0.000491828 ChangeToIMG0 25109.4 -831.639 ReProjrct 362.587 921.418 2dPointinIMG0 338.299 1133.05 withoutDisTort 1501.85 198.36
+
+2d:
+nose
+real0:(346.222,209.008) cal0:(345.95,211.141) error:2.15002
+real1:(308.631,165.443) cal1:(308.736,163.767) error:1.67947
+
+left eye (inner)
+real0:(352.706,186.544) cal0:(352.555,187.418) error:0.886661
+real1:(320.247,137.932) cal1:(320.32,137.873) error:0.093537
+
+left eye
+real0:(357.33,186.898) cal0:(357.256,187.143) error:0.256122
+real1:(331.661,136.159) cal1:(331.68,136.707) error:0.548262
+
+left eye (outer)
+real0:(361.287,187.003) cal0:(361.265,186.807) error:0.197464
+real1:(342.888,134.581) cal1:(342.853,135.562) error:0.981552
+
+right eye (inner)
+real0:(331.998,183.455) cal0:(331.679,185.829) error:2.39513
+real1:(296.841,141.146) cal1:(297.038,139.634) error:1.52576
+
+right eye
+real0:(323.106,181.947) cal0:(322.768,184.607) error:2.68131
+real1:(290.853,141.55) cal1:(291.09,139.76) error:1.80523
+
+right eye (outer)
+real0:(313.723,180.666) cal0:(313.394,183.447) error:2.80053
+real1:(284.452,141.923) cal1:(284.735,140.019) error:1.92458
+
+left ear
+real0:(351.704,190.993) cal0:(351.798,190.167) error:0.831104
+real1:(363.92,138.939) cal1:(363.781,140.418) error:1.48602
+
+right ear
+real0:(288.176,186.757) cal0:(288.273,187.2) error:0.453324
+real1:(283.398,146.887) cal1:(283.681,147.223) error:0.43865
+
+mouth (left)
+real0:(347.371,230.956) cal0:(347.14,233.127) error:2.18373
+real1:(333.501,188.926) cal1:(333.542,187.011) error:1.91641
+
+mouth (right)
+real0:(326.059,230.824) cal0:(325.731,234.038) error:3.23015
+real1:(302.932,192.67) cal1:(303.07,189.67) error:3.00304
+
+left shoulder
+real0:(384.904,300.939) cal0:(384.871,299.371) error:1.56845
+real1:(429.48,259.749) cal1:(429.077,261.005) error:1.31913
+
+right shoulder
+real0:(213.1,302.164) cal0:(213.824,303.13) error:1.20739
+real1:(233.085,261.376) cal1:(233.604,259.923) error:1.54252
+
+left elbow
+real0:(480.845,418.815) cal0:(479.26,424.82) error:6.21034
+real1:(488.755,429.874) cal1:(487.785,421.966) error:7.96741
+
+right elbow
+real0:(142.493,439.915) cal0:(146.027,446.125) error:7.14526
+real1:(133.948,381.566) cal1:(138.354,368.229) error:14.0455
+
+left wrist
+real0:(535.127,313.668) cal0:(532.557,310.082) error:4.41136
+real1:(491.715,267.366) cal1:(490.31,269.296) error:2.38773
+
+right wrist
+real0:(140.132,304.788) cal0:(142.318,311.846) error:7.3889
+real1:(100.153,270.003) cal1:(104.201,259.903) error:10.8818
+
+left pinky
+real0:(551.307,275.425) cal0:(548.467,272.081) error:4.38658
+real1:(497.63,212.672) cal1:(496.1,215.124) error:2.89003
+
+right pinky
+real0:(131.272,257.613) cal0:(133.255,266.9) error:9.49627
+real1:(84.9476,236.89) cal1:(89.3414,225.045) error:12.6333
+
+left index
+real0:(538.152,256.804) cal0:(535.594,255.07) error:3.09069
+real1:(491.945,191.118) cal1:(490.483,192.898) error:2.30432
+
+right index
+real0:(134.531,235.891) cal0:(136.202,246.574) error:10.813
+real1:(91.6703,222.758) cal1:(95.8603,209.751) error:13.6657
+
+left thumb
+real0:(529.87,270.765) cal0:(527.154,273.301) error:3.71558
+real1:(484.004,220.434) cal1:(482.882,218.887) error:1.91127
+
+right thumb
+real0:(145.571,253.73) cal0:(146.949,266.241) error:12.5867
+real1:(96.0464,240.058) cal1:(100.334,224.412) error:16.2227
+
+left hip
+real0:(395.768,590.371) cal0:(390.16,559.502) error:31.3741
+real1:(374.531,550.931) cal1:(373.801,548.354) error:2.67856
+
+right hip
+real0:(265.065,601.118) cal0:(267.008,602.204) error:2.22561
+real1:(242.102,539.858) cal1:(243.491,535.895) error:4.19907
+
+left knee
+real0:(413.737,827.83) cal0:(391.763,764.631) error:66.9103
+real1:(355.64,767.282) cal1:(347.752,766.306) error:7.94792
+
+right knee
+real0:(287.196,845.031) cal0:(294.846,811.481) error:34.4111
+real1:(217.101,760.773) cal1:(227.876,731.404) error:31.2838
+
+left ankle
+real0:(420.317,1057.09) cal0:(370.653,883.076) error:180.967
+real1:(346.342,967.484) cal1:(324.397,873.645) error:96.3709
+
+right ankle
+real0:(297.674,1071.8) cal0:(349.397,910.22) error:169.66
+real1:(220.842,964.849) cal1:(247.911,855.66) error:112.495
+
+left heel
+real0:(417.494,1086.44) cal0:(350.508,887.884) error:209.554
+real1:(350.896,992.664) cal1:(342.002,877.163) error:115.843
+
+right heel
+real0:(288.218,1101.79) cal0:(348.34,918.422) error:192.972
+real1:(221.086,989.071) cal1:(251.303,864.789) error:127.903
+
+left foot index
+real0:(434.028,1121.17) cal0:(390.532,906.617) error:218.918
+real1:(324.199,1034.21) cal1:(300.958,897.084) error:139.077
+
+right foot index
+real0:(338.299,1133.05) cal0:(362.587,921.418) error:213.021
+real1:(235.348,1037.79) cal1:(269.483,883.229) error:158.288
+

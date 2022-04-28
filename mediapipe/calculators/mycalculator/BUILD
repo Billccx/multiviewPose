@@ -258,3 +258,51 @@ cc_library(
     ],
     alwayslink = 1,
 )
+
+cc_library(
+    name = "triangulation9",
+    srcs = ["triangulation9.cc","reProjectionError2.hpp"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/port:ret_check",
+        "//mediapipe/framework/formats:image",
+        "//mediapipe/framework/formats:image_frame",
+        "//mediapipe/framework/formats:image_frame_opencv",
+        "//mediapipe/framework:timestamp",
+        "//mediapipe/framework/formats:landmark_cc_proto",
+        "@usr_local//:opencv",
+        "@usr_local//:opencv2",
+        "@usr_local//:librealsense2",
+        "@usr_local//:ceres",
+        "@eigen//:eigen",
+        "//mediapipe/framework/port:status",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:parse",
+    ],
+    alwayslink = 1,
+)
+
+cc_library(
+    name = "triangulation10",
+    srcs = ["triangulation10.cc","reProjectionError2.hpp"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/port:ret_check",
+        "//mediapipe/framework/formats:image",
+        "//mediapipe/framework/formats:image_frame",
+        "//mediapipe/framework/formats:image_frame_opencv",
+        "//mediapipe/framework:timestamp",
+        "//mediapipe/framework/formats:landmark_cc_proto",
+        "@usr_local//:opencv",
+        "@usr_local//:opencv2",
+        "@usr_local//:librealsense2",
+        "@usr_local//:ceres",
+        "@eigen//:eigen",
+        "//mediapipe/framework/port:status",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:parse",
+    ],
+    alwayslink = 1,
+)

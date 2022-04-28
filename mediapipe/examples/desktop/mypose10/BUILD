@@ -8,7 +8,7 @@ cc_binary(
     deps = [
         "//mediapipe/examples/desktop:mypose10",
         "//mediapipe/graphs/pose_tracking:pose_tracking_cpu_deps",
-        "//mediapipe/calculators/mycalculator:triangulation_calculator",
+        "//mediapipe/calculators/mycalculator:triangulation10",
         "//mediapipe/calculators/mycalculator:unpacker2",
         "//mediapipe/calculators/core:pass_through_calculator",
         "@usr_local//:librealsense2",

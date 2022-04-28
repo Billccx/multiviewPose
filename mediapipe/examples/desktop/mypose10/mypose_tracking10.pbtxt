@@ -78,7 +78,7 @@ node {
 
 node{
   #executor: "model_executor"
-  calculator: "TriangulationCalculator8"
+  calculator: "TriangulationCalculator10"
   input_stream: "NORM_FILTERED_LANDMARKS:0:pose_landmarks0"
   input_stream: "NORM_FILTERED_LANDMARKS:1:pose_landmarks1"
 
@@ -86,12 +86,6 @@ node{
   input_stream: "DEPTH_MAT:1:throttled_input_depth1"
 
   output_stream: "FUSED_NORM_FILTERED_LANDMARKS:output_landmarks"
-
-  node_options: {
-      [type.googleapis.com/mediapipe.TriangulationCalculatorOptions] {
-        parameterfile: "mediapipe/models/detection_model.tflite"
-      }
-  }
 }
 
 
